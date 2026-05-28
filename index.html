@@ -96,8 +96,43 @@
       </button>
     </div>
 
+    <div id="step-6-screen" style="display: none; max-width: 550px; margin: 0 auto; background-color: white; padding: 30px; border-radius: 12px; border: 1px solid #ccc; text-align: left;">
+      <h2 style="text-align: center; color: #333;">Your Project Estimate ☀️</h2>
+      <p style="text-align: center; color: #666;" id="result-address-text"></p>
+      <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+      <div style="font-size: 18px; margin-bottom: 12px; display: flex; justify-content: space-between;">
+        <span>Gross Solar Cost:</span>
+        <strong id="solar-cost-text">$0</strong>
+      </div>
+      
+      <div style="font-size: 18px; margin-bottom: 12px; display: flex; justify-content: space-between; color: green;">
+        <span>Federal Tax Credit (30%):</span>
+        <strong id="tax-credit-text">-$0</strong>
+      </div>
+
+      <div style="font-size: 18px; margin-bottom: 12px; display: flex; justify-content: space-between; color: #cc5200;" id="roof-row">
+        <span id="roof-label">Roof Preparation:</span>
+        <strong id="roof-cost-text">$0</strong>
+      </div>
+
+      <hr style="border: 0; border-top: 2px solid #333; margin: 20px 0;">
+
+      <div style="font-size: 22px; margin-bottom: 30px; display: flex; justify-content: space-between; font-weight: bold;">
+        <span>Estimated Total Investment:</span>
+        <span id="total-cost-text" style="color: #007BFF;">$0</span>
+      </div>
+
+      <div style="background-color: #eaf4ff; padding: 20px; border-radius: 8px; border: 1px solid #b8daff; text-align: center;">
+        <h3 style="margin-top: 0; color: #004085;">🛡️ Avoid the Contractor Scam</h3>
+        <p style="font-size: 14px; color: #004085; line-height: 1.4;">We can connect you with up to 3 vetted, licensed local pros who specialize in <span id="specialty-text">your roof type</span>.</p>
+        <button style="background-color: #28a745; color: white; padding: 12px 20px; font-size: 16px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%;">
+          Request Vetted Bids
+        </button>
+      </div>
+    </div>
+
     <script>
-        // Our smart variable box to store the user's answers
         var savedAnswers = {
             address: "",
             roofMaterial: "",
@@ -106,7 +141,7 @@
             hasLeak: false
         };
 
-        // STEP 1 BUTTON: Click "Find My Roof"
+        // STEP 1 BUTTON
         document.getElementById('find-roof-button').addEventListener('click', function() {
             var userAddress = document.getElementById('address-input').value;
             if(userAddress === "") {
@@ -120,78 +155,7 @@
             document.getElementById('step-2-screen').style.display = 'block';
         });
 
-        // STEP 2 BUTTON: Click "No, go back"
+        // STEP 2 BUTTON
         document.getElementById('no-button').addEventListener('click', function() {
             document.getElementById('step-2-screen').style.display = 'none';
-            document.getElementById('step-1-screen').style.display = 'block';
-        });
-
-        // STEP 2 BUTTON: Click "Yes, that's my house!"
-        document.getElementById('yes-button').addEventListener('click', function() {
-            document.getElementById('step-2-screen').style.display = 'none';
-            document.getElementById('step-3-screen').style.display = 'block';
-        });
-
-        // STEP 3 HELPER FUNCTION: Move from Step 3 to Step 4
-        function goToStep4() {
-            document.getElementById('step-3-screen').style.display = 'none';
-            document.getElementById('step-4-screen').style.display = 'block';
-        }
-
-        // STEP 3 BUTTONS: Listen for material clicks
-        document.getElementById('tile-button').addEventListener('click', function() {
-            savedAnswers.roofMaterial = "Tile";
-            goToStep4();
-        });
-
-        document.getElementById('shingle-button').addEventListener('click', function() {
-            savedAnswers.roofMaterial = "Shingle";
-            goToStep4();
-        });
-
-        document.getElementById('foam-button').addEventListener('click', function() {
-            savedAnswers.roofMaterial = "Foam";
-            goToStep4();
-        });
-
-        // STEP 4 HELPER FUNCTION: Move from Step 4 to Step 5
-        function goToStep5() {
-            document.getElementById('step-4-screen').style.display = 'none';
-            document.getElementById('step-5-screen').style.display = 'block';
-        }
-
-        // STEP 4 BUTTONS: Listen for age clicks
-        document.getElementById('age-new-button').addEventListener('click', function() {
-            savedAnswers.roofAge = "New";
-            goToStep5();
-        });
-
-        document.getElementById('age-mid-button').addEventListener('click', function() {
-            savedAnswers.roofAge = "Mid";
-            goToStep5();
-        });
-
-        document.getElementById('age-old-button').addEventListener('click', function() {
-            savedAnswers.roofAge = "Old";
-            goToStep5();
-        });
-
-        // STEP 5 BUTTON: Click "See My Estimate!"
-        document.getElementById('step-5-next').addEventListener('click', function() {
-            // Check if the boxes are checked or unchecked
-            savedAnswers.hasHOA = document.getElementById('hoa-checkbox').checked;
-            savedAnswers.hasLeak = document.getElementById('leak-checkbox').checked;
-
-            alert("All answers locked in!\n" + 
-                  "Address: " + savedAnswers.address + "\n" +
-                  "Material: " + savedAnswers.roofMaterial + "\n" +
-                  "Age: " + savedAnswers.roofAge + "\n" +
-                  "HOA: " + savedAnswers.hasHOA + "\n" +
-                  "Leak: " + savedAnswers.hasLeak);
-            
-            // Next up: The Pricing Page!
-        });
-    </script>
-
-</body>
-</html>
+            document.getElementById('step-1-screen').style.display = '
