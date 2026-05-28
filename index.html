@@ -36,32 +36,74 @@
       </button>
     </div>
 
+    <div id="step-3-screen" style="display: none;">
+      <h2>What is your roof made of?</h2>
+      <p style="color: #666;">Different materials change how solar panels are installed.</p>
+
+      <div style="display: flex; justify-content: center; gap: 20px; margin-top: 30px;">
+        <button id="tile-button" style="background-color: white; border: 2px solid #ccc; border-radius: 8px; padding: 20px; width: 120px; cursor: pointer; font-size: 16px; font-weight: bold;">
+          🧱<br><br>Tile
+        </button>
+
+        <button id="shingle-button" style="background-color: white; border: 2px solid #ccc; border-radius: 8px; padding: 20px; width: 120px; cursor: pointer; font-size: 16px; font-weight: bold;">
+          🪵<br><br>Shingle
+        </button>
+
+        <button id="foam-button" style="background-color: white; border: 2px solid #ccc; border-radius: 8px; padding: 20px; width: 120px; cursor: pointer; font-size: 16px; font-weight: bold;">
+          🌧️<br><br>Foam / Flat
+        </button>
+      </div>
+    </div>
+
     <script>
-        // Tell the computer to listen for when the "Find My Roof!" button is clicked
+        // Store the user's answers in a variable box so we can look at them later
+        var savedAnswers = {
+            address: "",
+            roofMaterial: ""
+        };
+
+        // STEP 1 BUTTON: Click "Find My Roof"
         document.getElementById('find-roof-button').addEventListener('click', function() {
-            
-            // 1. Get the text the user typed into the box
             var userAddress = document.getElementById('address-input').value;
-            
-            // If they didn't type anything, tell them to type something!
             if(userAddress === "") {
                 alert("Please type an address first!");
                 return;
             }
-
-            // 2. Show the address they typed on the screen in Step 2
+            savedAnswers.address = userAddress; // Save address
             document.getElementById('display-address').innerText = userAddress;
 
-            // 3. Hide Step 1 and Show Step 2!
             document.getElementById('step-1-screen').style.display = 'none';
             document.getElementById('step-2-screen').style.display = 'block';
         });
 
-        // Tell the computer what to do if they click the "No, go back" button
+        // STEP 2 BUTTON: Click "No, go back"
         document.getElementById('no-button').addEventListener('click', function() {
-            // Hide Step 2 and Show Step 1 again so they can fix their address
             document.getElementById('step-2-screen').style.display = 'none';
             document.getElementById('step-1-screen').style.display = 'block';
+        });
+
+        // STEP 2 BUTTON: Click "Yes, that's my house!"
+        document.getElementById('yes-button').addEventListener('click', function() {
+            // Hide Step 2 and show Step 3!
+            document.getElementById('step-2-screen').style.display = 'none';
+            document.getElementById('step-3-screen').style.display = 'block';
+        });
+
+        // STEP 3 BUTTONS: Listen for which material they click
+        document.getElementById('tile-button').addEventListener('click', function() {
+            savedAnswers.roofMaterial = "Tile";
+            alert("Saved! You selected: " + savedAnswers.roofMaterial);
+            // We will make this go to Step 4 next!
+        });
+
+        document.getElementById('shingle-button').addEventListener('click', function() {
+            savedAnswers.roofMaterial = "Shingle";
+            alert("Saved! You selected: " + savedAnswers.roofMaterial);
+        });
+
+        document.getElementById('foam-button').addEventListener('click', function() {
+            savedAnswers.roofMaterial = "Foam";
+            alert("Saved! You selected: " + savedAnswers.roofMaterial);
         });
     </script>
 
