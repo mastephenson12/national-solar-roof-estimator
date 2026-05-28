@@ -55,11 +55,31 @@
       </div>
     </div>
 
+    <div id="step-4-screen" style="display: none;">
+      <h2>How old is your roof?</h2>
+      <p style="color: #666;">This helps us know if your roof needs a refresh before the solar panels go on.</p>
+
+      <div style="display: flex; justify-content: center; gap: 20px; margin-top: 30px;">
+        <button id="age-new-button" style="background-color: white; border: 2px solid #ccc; border-radius: 8px; padding: 20px; width: 140px; cursor: pointer; font-size: 16px; font-weight: bold;">
+          👶<br><br>0 to 10 years
+        </button>
+
+        <button id="age-mid-button" style="background-color: white; border: 2px solid #ccc; border-radius: 8px; padding: 20px; width: 140px; cursor: pointer; font-size: 16px; font-weight: bold;">
+          ⏳<br><br>11 to 20 years
+        </button>
+
+        <button id="age-old-button" style="background-color: white; border: 2px solid #ccc; border-radius: 8px; padding: 20px; width: 140px; cursor: pointer; font-size: 16px; font-weight: bold;">
+          👵<br><br>20+ years
+        </button>
+      </div>
+    </div>
+
     <script>
-        // Store the user's answers in a variable box so we can look at them later
+        // Our smart variable box to store the user's answers
         var savedAnswers = {
             address: "",
-            roofMaterial: ""
+            roofMaterial: "",
+            roofAge: ""
         };
 
         // STEP 1 BUTTON: Click "Find My Roof"
@@ -69,7 +89,7 @@
                 alert("Please type an address first!");
                 return;
             }
-            savedAnswers.address = userAddress; // Save address
+            savedAnswers.address = userAddress;
             document.getElementById('display-address').innerText = userAddress;
 
             document.getElementById('step-1-screen').style.display = 'none';
@@ -84,28 +104,15 @@
 
         // STEP 2 BUTTON: Click "Yes, that's my house!"
         document.getElementById('yes-button').addEventListener('click', function() {
-            // Hide Step 2 and show Step 3!
             document.getElementById('step-2-screen').style.display = 'none';
             document.getElementById('step-3-screen').style.display = 'block';
         });
 
-        // STEP 3 BUTTONS: Listen for which material they click
-        document.getElementById('tile-button').addEventListener('click', function() {
-            savedAnswers.roofMaterial = "Tile";
-            alert("Saved! You selected: " + savedAnswers.roofMaterial);
-            // We will make this go to Step 4 next!
-        });
+        // STEP 3 HELPER FUNCTION: Move from Step 3 to Step 4
+        function goToStep4() {
+            document.getElementById('step-3-screen').style.display = 'none';
+            document.getElementById('step-4-screen').style.display = 'block';
+        }
 
-        document.getElementById('shingle-button').addEventListener('click', function() {
-            savedAnswers.roofMaterial = "Shingle";
-            alert("Saved! You selected: " + savedAnswers.roofMaterial);
-        });
-
-        document.getElementById('foam-button').addEventListener('click', function() {
-            savedAnswers.roofMaterial = "Foam";
-            alert("Saved! You selected: " + savedAnswers.roofMaterial);
-        });
-    </script>
-
-</body>
-</html>
+        // STEP 3 BUTTONS: Listen for material clicks
+        document.getElementById('tile
