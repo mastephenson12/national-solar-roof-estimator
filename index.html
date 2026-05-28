@@ -1,24 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Phoenix Solar & Roof Estimator</title>
+    <title>National Solar & Roof Estimator</title>
 </head>
-<body style="background-color: #f4f7f6;">
+<body style="background-color: #f4f7f6; font-family: sans-serif; text-align: center; padding: 50px 20px;">
 
-    <div id="step-1-screen" style="text-align: center; padding: 100px 20px; font-family: sans-serif;">
-      
+    <div id="step-1-screen">
       <h2>Where is your home located?</h2>
       <p style="color: #666;">Type your address below so our smart map can find your roof.</p>
 
-      <input type="text" id="address-input" placeholder="Enter your Phoenix address..." style="width: 320px; padding: 12px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px;">
-      
+      <input type="text" id="address-input" placeholder="Enter your home address..." style="width: 320px; padding: 12px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px;">
       <br><br>
 
-      <button id="next-button" style="background-color: #FF9900; color: white; padding: 12px 24px; font-size: 16px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+      <button id="find-roof-button" style="background-color: #FF9900; color: white; padding: 12px 24px; font-size: 16px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
         Find My Roof!
       </button>
-
     </div>
+
+    <div id="step-2-screen" style="display: none;">
+      <h2>Is this your home?</h2>
+      <p style="color: #666;">We want to make sure our satellites are looking at the right roof.</p>
+
+      <div style="margin: 20px auto; width: 350px; height: 250px; background-color: #ddd; border: 3px solid #FF9900; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #555;">
+        [ Satellite Map View of House ]
+      </div>
+
+      <p id="display-address" style="font-weight: bold; font-size: 18px; color: #333;"></p>
+
+      <button id="yes-button" style="background-color: #28a745; color: white; padding: 12px 24px; font-size: 16px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin-right: 10px;">
+        Yes, that's my house!
+      </button>
+      
+      <button id="no-button" style="background-color: #dc3545; color: white; padding: 12px 24px; font-size: 16px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+        No, go back
+      </button>
+    </div>
+
+    <script>
+        // Tell the computer to listen for when the "Find My Roof!" button is clicked
+        document.getElementById('find-roof-button').addEventListener('click', function() {
+            
+            // 1. Get the text the user typed into the box
+            var userAddress = document.getElementById('address-input').value;
+            
+            // If they didn't type anything, tell them to type something!
+            if(userAddress === "") {
+                alert("Please type an address first!");
+                return;
+            }
+
+            // 2. Show the address they typed on the screen in Step 2
+            document.getElementById('display-address').innerText = userAddress;
+
+            // 3. Hide Step 1 and Show Step 2!
+            document.getElementById('step-1-screen').style.display = 'none';
+            document.getElementById('step-2-screen').style.display = 'block';
+        });
+
+        // Tell the computer what to do if they click the "No, go back" button
+        document.getElementById('no-button').addEventListener('click', function() {
+            // Hide Step 2 and Show Step 1 again so they can fix their address
+            document.getElementById('step-2-screen').style.display = 'none';
+            document.getElementById('step-1-screen').style.display = 'block';
+        });
+    </script>
 
 </body>
 </html>
