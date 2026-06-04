@@ -21,7 +21,9 @@
       <h2>Is this your home?</h2>
       <p style="color: #666;">We want to make sure our satellites are looking at the right roof.</p>
 
-      <div style="margin: 20px auto; width: 350px; height: 250px; background-color: #ddd; border: 3px solid #FF9900; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #555;">
+      <img id="satellite-image" src="" alt="Looking for your roof..." style="margin: 20px auto; width: 100%; max-width: 400px; height: auto; border: 3px solid #FF9900; border-radius: 8px; display: none;">
+      
+      <div id="map-placeholder" style="margin: 20px auto; width: 350px; height: 250px; background-color: #ddd; border: 3px solid #FF9900; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #555;">
         [ Satellite Map View of House ]
       </div>
 
@@ -84,10 +86,15 @@
           My neighborhood has an HOA 🏘️
         </label>
 
-        <label style="font-size: 18px; cursor: pointer; display: block;">
+        <label style="font-size: 18px; cursor: pointer; display: block; margin-bottom: 25px;">
           <input type="checkbox" id="leak-checkbox" style="transform: scale(1.3); margin-right: 10px;">
           My roof has an active leak 💧
         </label>
+        
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+        
+        <label style="font-weight: bold; display: block; margin-bottom: 8px;">Where should we send your backup report?</label>
+        <input type="email" id="user-email" placeholder="Enter your email address..." style="width: 93%; padding: 12px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px;">
       </div>
 
       <br>
@@ -103,12 +110,12 @@
 
       <div style="font-size: 18px; margin-bottom: 12px; display: flex; justify-content: space-between;">
         <span>Gross Solar Cost:</span>
-        <strong id="solar-cost-text">$0</strong>
+        <strong id="solar-cost-text">$20,000</strong>
       </div>
       
       <div style="font-size: 18px; margin-bottom: 12px; display: flex; justify-content: space-between; color: green;">
         <span>Federal Tax Credit (30%):</span>
-        <strong id="tax-credit-text">-$0</strong>
+        <strong id="tax-credit-text">-$6,000</strong>
       </div>
 
       <div style="font-size: 18px; margin-bottom: 12px; display: flex; justify-content: space-between; color: #cc5200;" id="roof-row">
@@ -126,7 +133,7 @@
       <div style="background-color: #eaf4ff; padding: 20px; border-radius: 8px; border: 1px solid #b8daff; text-align: center;">
         <h3 style="margin-top: 0; color: #004085;">🛡️ Avoid the Contractor Scam</h3>
         <p style="font-size: 14px; color: #004085; line-height: 1.4;">We can connect you with up to 3 vetted, licensed local pros who specialize in <span id="specialty-text">your roof type</span>.</p>
-        <button style="background-color: #28a745; color: white; padding: 12px 20px; font-size: 16px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%;">
+        <button id="request-bids-btn" style="background-color: #28a745; color: white; padding: 12px 20px; font-size: 16px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%;">
           Request Vetted Bids
         </button>
       </div>
@@ -138,7 +145,8 @@
             roofMaterial: "",
             roofAge: "",
             hasHOA: false,
-            hasLeak: false
+            hasLeak: false,
+            email: ""
         };
 
         // STEP 1 BUTTON
@@ -151,11 +159,118 @@
             savedAnswers.address = userAddress;
             document.getElementById('display-address').innerText = userAddress;
 
+            // --- GOOGLE MAPS STATIC API TRICK ---
+            // If you get an API key later, insert it below to turn on the space satellites!
+            var myApiKey = "YOUR_GOOGLE_API_KEY_HERE"; 
+            
+            if (myApiKey !== "YOUR_GOOGLE_API_KEY_HERE" && myApiKey !== "") {
+                var mapUrl = "https://maps.googleapis.com/maps/api/staticmap?center=" + encodeURIComponent(userAddress) + "&zoom=19&size=400x300&maptype=satellite&key=" + myApiKey;
+                document.getElementById('satellite-image').src = mapUrl;
+                document.getElementById('satellite-image').style.display = 'block';
+                document.getElementById('map-placeholder').style.display = 'none';
+            }
+            // ------------------------------------
+
             document.getElementById('step-1-screen').style.display = 'none';
             document.getElementById('step-2-screen').style.display = 'block';
         });
 
-        // STEP 2 BUTTON
+        // STEP 2 BUTTONS
         document.getElementById('no-button').addEventListener('click', function() {
             document.getElementById('step-2-screen').style.display = 'none';
-            document.getElementById('step-1-screen').style.display = '
+            document.getElementById('step-1-screen').style.display = 'block';
+        });
+
+        document.getElementById('yes-button').addEventListener('click', function() {
+            document.getElementById('step-2-screen').style.display = 'none';
+            document.getElementById('step-3-screen').style.display = 'block';
+        });
+
+        function goToStep4() {
+            document.getElementById('step-3-screen').style.display = 'none';
+            document.getElementById('step-4-screen').style.display = 'block';
+        }
+
+        // STEP 3 BUTTONS
+        document.getElementById('tile-button').addEventListener('click', function() { savedAnswers.roofMaterial = "Tile"; goToStep4(); });
+        document.getElementById('shingle-button').addEventListener('click', function() { savedAnswers.roofMaterial = "Shingle"; goToStep4(); });
+        document.getElementById('foam-button').addEventListener('click', function() { savedAnswers.roofMaterial = "Foam"; goToStep4(); });
+
+        function goToStep5() {
+            document.getElementById('step-4-screen').style.display = 'none';
+            document.getElementById('step-5-screen').style.display = 'block';
+        }
+
+        // STEP 4 BUTTONS
+        document.getElementById('age-new-button').addEventListener('click', function() { savedAnswers.roofAge = "New"; goToStep5(); });
+        document.getElementById('age-mid-button').addEventListener('click', function() { savedAnswers.roofAge = "Mid"; goToStep5(); });
+        document.getElementById('age-old-button').addEventListener('click', function() { savedAnswers.roofAge = "Old"; goToStep5(); });
+
+        // STEP 5 BUTTON (THE CALCULATOR MECHANISM)
+        document.getElementById('step-5-next').addEventListener('click', function() {
+            var userEmailInput = document.getElementById('user-email').value;
+            if(userEmailInput === "") {
+                alert("Please enter your email to view the final breakdown.");
+                return;
+            }
+            
+            savedAnswers.email = userEmailInput;
+            savedAnswers.hasHOA = document.getElementById('hoa-checkbox').checked;
+            savedAnswers.hasLeak = document.getElementById('leak-checkbox').checked;
+
+            // Math rules
+            var baseSolarCost = 20000;
+            var taxCredit = baseSolarCost * 0.30;
+            var roofCost = 0;
+
+            if (savedAnswers.roofMaterial === "Tile") {
+                if (savedAnswers.roofAge === "Old" || savedAnswers.roofAge === "Mid") {
+                    roofCost = 12500;
+                    document.getElementById('roof-label').innerText = "Tile Remove & Reset (TR&R):";
+                } else {
+                    roofCost = 0;
+                }
+                document.getElementById('specialty-text').innerText = "Concrete Tile Systems";
+            } 
+            else if (savedAnswers.roofMaterial === "Shingle") {
+                if (savedAnswers.roofAge === "Old") {
+                    roofCost = 8000;
+                    document.getElementById('roof-label').innerText = "Shingle Roof Replacement:";
+                } else {
+                    roofCost = 0;
+                }
+                document.getElementById('specialty-text').innerText = "Asphalt Shingle Roofing";
+            }
+            else {
+                if (savedAnswers.roofAge === "Old") {
+                    roofCost = 6000;
+                }
+                document.getElementById('specialty-text').innerText = "Flat/Foam Coating";
+            }
+
+            if (savedAnswers.hasLeak) {
+                roofCost += 750;
+            }
+
+            var finalTotal = baseSolarCost - taxCredit + roofCost;
+
+            // Push numbers into layout view
+            document.getElementById('result-address-text').innerText = savedAnswers.address;
+            document.getElementById('solar-cost-text').innerText = "$" + baseSolarCost.toLocaleString();
+            document.getElementById('tax-credit-text').innerText = "-$" + taxCredit.toLocaleString();
+            document.getElementById('roof-cost-text').innerText = "$" + roofCost.toLocaleString();
+            document.getElementById('total-cost-text').innerText = "$" + finalTotal.toLocaleString();
+
+            // Swap out screens smoothly
+            document.getElementById('step-5-screen').style.display = 'none';
+            document.getElementById('step-6-screen').style.display = 'block';
+        });
+
+        // Trigger action for clicking the bid request button
+        document.getElementById('request-bids-btn').addEventListener('click', function() {
+            alert("Success! Your project data packet has been sent to matching local contractors. They will reach out shortly.");
+        });
+    </script>
+
+</body>
+</html>
