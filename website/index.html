@@ -3,62 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MidsizeAI | AI Marketing & Receptionists for the Trades</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>MidsizeAI | Smart Solar & Roof Estimator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+            color: #1e293b;
+            text-align: center;
+        }
+        header {
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0284c7;
+        }
+        .hero {
+            max-width: 800px;
+            margin: 80px auto;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 48px;
+            color: #0f172a;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        p.subtitle {
+            font-size: 20px;
+            color: #64748b;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+        .cta-btn {
+            background-color: #ff9900;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 16px 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(255, 153, 0, 0.2);
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+        .cta-btn:hover {
+            background-color: #e68a00;
+            transform: translateY(-2px);
+        }
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            max-width: 1000px;
+            margin: 60px auto;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            width: 260px;
+            border: 1px solid #e2e8f0;
+        }
+        .feature-card icon {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 15px;
+        }
+        .feature-card h3 {
+            margin: 10px 0;
+            color: #0f172a;
+        }
+        .feature-card p {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+    </style>
 </head>
-<body class="bg-slate-900 text-white font-sans">
+<body>
 
-    <!-- Navbar -->
-    <nav class="flex justify-between items-center p-6 max-w-7xl mx-auto">
-        <div class="text-2xl font-black tracking-wider text-cyan-400">MIDSIZE<span class="text-white">AI</span></div>
-        <div class="space-x-6 hidden md:flex text-slate-300">
-            <a href="#features" class="hover:text-white transition">Features</a>
-            <a href="#podcast" class="hover:text-white transition text-yellow-400 font-semibold">🎙️ Honest Roofer Podcast</a>
-        </div>
-        <a href="tel:7252571810" class="bg-cyan-500 hover:bg-cyan-600 text-slate-950 font-bold px-5 py-2 rounded-lg transition shadow-lg shadow-cyan-500/20">Call Samantha Demo</a>
-    </nav>
-
-    <!-- Hero Section -->
-    <header class="max-w-5xl mx-auto text-center py-20 px-4">
-        <span class="bg-slate-800 text-cyan-400 text-sm font-bold px-4 py-1.5 rounded-full uppercase tracking-widest border border-slate-700">Built Exclusively for Home Services</span>
-        <h1 class="text-5xl md:text-7xl font-extrabold mt-6 tracking-tight leading-tight">
-            Stop Losing Jobs Because You're <span class="text-cyan-400">On A Roof.</span>
-        </h1>
-        <p class="text-xl text-slate-400 mt-6 max-w-2xl mx-auto">
-            MidsizeAI deploys automated receptionists and hyper-local marketing review systems that capture leads, qualify them, and book appointments 24/7.
-        </p>
-
-        <!-- Live Call Action Box -->
-        <div class="mt-10 max-w-md mx-auto bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-2xl">
-            <p class="text-sm uppercase tracking-wider text-slate-400 font-semibold">Test the AI Receptionist Right Now</p>
-            <a href="tel:7252571810" class="block text-3xl font-black text-cyan-400 my-3 hover:underline">725-257-1810</a>
-            <p class="text-xs text-slate-500">Call from your cell. See how Samantha qualifies your trade business.</p>
-        </div>
+    <header>
+        <div class="logo">☀️ MidsizeAI</div>
     </header>
 
-    <!-- The Podcast Integration Section -->
-    <section id="podcast" class="bg-slate-950 border-t border-slate-800 py-20 px-4">
-        <div class="max-w-4xl mx-auto text-center">
-            <div class="text-amber-400 text-4xl mb-4">🎙️</div>
-            <h2 class="text-3xl md:text-4xl font-bold">The Honest Roofer Podcast Ecosystem</h2>
-            <p class="text-slate-400 mt-4 max-w-xl mx-auto">
-                We don't just build tech; we champion the pros who do good work. Our community is built to expose storm chasers and help honest contractors dominate their local markets.
-            </p>
-            
-            <div class="grid md:grid-cols-2 gap-6 mt-12 text-left">
-                <!-- GHL Snapshot / Lead Magnet 1 -->
-                <div class="bg-slate-900 p-6 rounded-xl border border-slate-800">
-                    <h3 class="text-xl font-bold text-white mb-2">Are you a Roofer?</h3>
-                    <p class="text-slate-400 text-sm mb-4">Get featured on the podcast, clean up the trade's reputation, and test our GHL snapshot built for missed call text-back.</p>
-                    <a href="https://link.midsizeai.com/widget/form/YOUR_GHL_FORM_ID" class="text-cyan-400 font-bold text-sm hover:underline">Apply to be a Guest →</a>
-                </div>
-                <!-- Homeowner Magnet 2 -->
-                <div class="bg-slate-900 p-6 rounded-xl border border-slate-800">
-                    <h3 class="text-xl font-bold text-white mb-2">Are you a Homeowner?</h3>
-                    <p class="text-slate-400 text-sm mb-4">Learn how to spot roofing scams, verify local deductibles, and find a certified contractor using our vetted network.</p>
-                    <a href="#newsletter" class="text-amber-400 font-bold text-sm hover:underline">Download the Scam Guide →</a>
-                </div>
-            </div>
+    <section class="hero">
+        <h1>Smart Solar & Roofing Estimates,<br>Powered by AI.</h1>
+        <p class="subtitle">Skip the pushy salespeople. Use our instant satellite analysis tool to check your roof's solar potential and get an honest installation estimate in 60 seconds.</p>
+        
+        <a href="../index.html" class="cta-btn">Start Your Free Estimate →</a>
+    </section>
+
+    <section class="features">
+        <div class="feature-card">
+            <icon>📡</icon>
+            <h3>Satellite Scanning</h3>
+            <p>Our tool instantly pulls satellite imagery of your roof to analyze installation space accuracy.</p>
+        </div>
+        <div class="feature-card">
+            <icon>⚖️</icon>
+            <h3>Honest Math</h3>
+            <p>Calculates real upfront investment margins, deducting the 30% federal tax credit automatically.</p>
+        </div>
+        <div class="feature-card">
+            <icon>🛡️</icon>
+            <h3>Zero Spam</h3>
+            <p>Your data is protected. We connect you with verified local contractors only when you ask us to.</p>
         </div>
     </section>
 
