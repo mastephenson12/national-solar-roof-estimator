@@ -260,6 +260,34 @@
             document.getElementById('roof-cost-text').innerText = "$" + roofCost.toLocaleString();
             document.getElementById('total-cost-text').innerText = "$" + finalTotal.toLocaleString();
 
+            // ========================================================
+            // 🔥 LINE 214: SEND DATA TO YOUR MAKE.COM WEBHOOK
+            // ========================================================
+            var ghlWebhookUrl = "PASTE_YOUR_MAKE_WEBHOOK_URL_HERE"; 
+            
+            if (ghlWebhookUrl !== "PASTE_YOUR_MAKE_WEBHOOK_URL_HERE") {
+                fetch(ghlWebhookUrl, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        email: savedAnswers.email,
+                        address: savedAnswers.address,
+                        roofMaterial: savedAnswers.roofMaterial,
+                        roofAge: savedAnswers.roofAge,
+                        hasHOA: savedAnswers.hasHOA ? "Yes" : "No",
+                        hasLeak: savedAnswers.hasLeak ? "Yes" : "No",
+                        estimatedGrossCost: baseSolarCost,
+                        taxCreditValue: taxCredit,
+                        additionalRoofCost: roofCost,
+                        estimatedTotalInvestment: finalTotal,
+                        source: "National Solar & Roof Estimator Tool"
+                    })
+                }).catch(function(err) {
+                    console.log("Tracking log:", err);
+                });
+            }
+            // ========================================================
+
             // Swap out screens smoothly
             document.getElementById('step-5-screen').style.display = 'none';
             document.getElementById('step-6-screen').style.display = 'block';
