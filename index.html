@@ -258,13 +258,12 @@
         };
 
         // --- NATIONWIDE COST MATRIX ---
-        // Adjusts pricing dynamically based on local state labor and hardware rates
         var statePricingMatrix = {
-            "CA": { baseSolar: 24500, roofMultiplier: 1.25 }, // Premium market
+            "CA": { baseSolar: 24500, roofMultiplier: 1.25 },
             "NY": { baseSolar: 23000, roofMultiplier: 1.20 }, 
             "NJ": { baseSolar: 22000, roofMultiplier: 1.15 },
-            "FL": { baseSolar: 19500, roofMultiplier: 1.05 }, // High volume market
-            "TX": { baseSolar: 18800, roofMultiplier: 0.95 }, // Lower labor costs
+            "FL": { baseSolar: 19500, roofMultiplier: 1.05 },
+            "TX": { baseSolar: 18800, roofMultiplier: 0.95 },
             "AZ": { baseSolar: 18500, roofMultiplier: 0.95 }, 
             "NV": { baseSolar: 19000, roofMultiplier: 1.00 },
             "CO": { baseSolar: 21000, roofMultiplier: 1.05 },
@@ -272,21 +271,19 @@
             "PA": { baseSolar: 21500, roofMultiplier: 1.10 },
             "GA": { baseSolar: 19000, roofMultiplier: 0.95 },
             "NC": { baseSolar: 19500, roofMultiplier: 0.95 },
-            "US": { baseSolar: 20000, roofMultiplier: 1.00 }  // National Default Fallback
+            "US": { baseSolar: 20000, roofMultiplier: 1.00 }
         };
 
-        // Helper function to extract State from raw text input
         function detectStateFromAddress(addressString) {
             var cleanAddress = addressString.toUpperCase();
             for (var stateCode in statePricingMatrix) {
                 if (stateCode === "US") continue;
-                // Looks for exact boundaries like " CA ", " CA,", or " CALIFORNIA"
                 var regexPattern = new RegExp('\\b(' + stateCode + '|' + getFullStateName(stateCode) + ')\\b');
                 if (regexPattern.test(cleanAddress)) {
                     return stateCode;
                 }
             }
-            return "US"; // Return fallback if undetected
+            return "US";
         }
 
         function getFullStateName(code) {
@@ -371,7 +368,6 @@
             savedAnswers.hasHOA = document.getElementById('hoa-checkbox').checked;
             savedAnswers.hasLeak = document.getElementById('leak-checkbox').checked;
 
-            // Fetch dynamic state pricing rates
             var pricingConfig = statePricingMatrix[savedAnswers.detectedState];
             var baseSolarCost = pricingConfig.baseSolar;
             var laborMultiplier = pricingConfig.roofMultiplier;
@@ -406,7 +402,6 @@
 
             var finalTotal = baseSolarCost - taxCredit + roofCost;
 
-            // Update display layout view
             document.getElementById('detected-state-text').innerText = savedAnswers.detectedState + " Market Rate";
             document.getElementById('result-address-text').innerText = savedAnswers.address;
             document.getElementById('solar-cost-text').innerText = "$" + baseSolarCost.toLocaleString();
@@ -414,11 +409,12 @@
             document.getElementById('roof-cost-text').innerText = "$" + Math.round(roofCost).toLocaleString();
             document.getElementById('total-cost-text').innerText = "$" + Math.round(finalTotal).toLocaleString();
 
-            // 🚀 FIRE CLEAN DATA PACKET TO MAKE.COM
+            // 🚀 FIRE CLEAN DATA PACKET TO MAKE.COM (OPTIMIZED FOR CORS BYPASS)
             var ghlWebhookUrl = "https://hook.us2.make.com/plxowlvlvajy4a14gst4eppp917l71c6"; 
             
             fetch(ghlWebhookUrl, {
                 method: "POST",
+                mode: "no-cors",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     email: savedAnswers.email,
@@ -435,9 +431,9 @@
                     source: "National Solar & Roof Estimator Tool"
                 })
             }).then(function() {
-                console.log("Transmission Successful.");
+                console.log("Transmission initialized under safe cross-origin protocols.");
             }).catch(function(err) {
-                console.log("Transmission Failed:", err);
+                console.log("Transmission Critical Error:", err);
             });
 
             document.getElementById('step-5-screen').style.display = 'none';
