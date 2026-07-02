@@ -94,7 +94,6 @@
             font-size: 14px;
             line-height: 1.5;
         }
-        /* Estimator Wizard Containers */
         .wizard-screen {
             background-color: white;
             max-width: 500px;
@@ -161,7 +160,7 @@
 
     <div id="step-1-screen" class="wizard-screen" style="display: none;">
         <h2>Where is your home located?</h2>
-        <p style="color: #64748b;">Type your address below so our smart map can find your roof.</p>
+        <p style="color: #64748b;">Type your complete address (City, State, Zip) so our smart map can find your roof.</p>
         <input type="text" id="address-input" placeholder="Enter your home address..." style="width: 90%; padding: 12px; font-size: 16px; border: 1px solid #cbd5e1; border-radius: 4px; outline: none;">
         <br><br>
         <button id="find-roof-button" class="cta-btn" style="font-size: 16px; padding: 12px 24px; width: 95%;">Find My Roof!</button>
@@ -223,7 +222,7 @@
         <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;">
 
         <div style="font-size: 18px; margin-bottom: 12px; display: flex; justify-content: space-between;">
-            <span>Gross Solar Cost:</span>
+            <span>Gross Solar Cost (<span id="detected-state-text">US Avg</span>):</span>
             <strong id="solar-cost-text">$20,000</strong>
         </div>
         <div style="font-size: 18px; margin-bottom: 12px; display: flex; justify-content: space-between; color: #16a34a;">
@@ -240,7 +239,7 @@
             <span id="total-cost-text" style="color: #0284c7;">$0</span>
         </div>
 
-        <div style="background-color: #f0f9ff; padding: 20px; border-radius: 8px; border: 1px solid #bae6fd; text-align: center;">
+        <div style="background-color: #f0f9ff; padding: 20px; border-radius: 8px; border: BAe6fd; text-align: center;">
             <h3 style="margin-top: 0; color: #0369a1;">🛡️ Avoid the Contractor Scam</h3>
             <p style="font-size: 14px; color: #0369a1; line-height: 1.4;">We can connect you with up to 3 vetted, licensed local pros who specialize in <span id="specialty-text">your roof type</span>.</p>
             <button id="request-bids-btn" style="background-color: #22c55e; color: white; padding: 12px 20px; font-size: 16px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%;">Request Vetted Bids</button>
@@ -250,12 +249,54 @@
     <script>
         var savedAnswers = {
             address: "",
+            detectedState: "US",
             roofMaterial: "",
             roofAge: "",
             hasHOA: false,
             hasLeak: false,
             email: ""
         };
+
+        // --- NATIONWIDE COST MATRIX ---
+        // Adjusts pricing dynamically based on local state labor and hardware rates
+        var statePricingMatrix = {
+            "CA": { baseSolar: 24500, roofMultiplier: 1.25 }, // Premium market
+            "NY": { baseSolar: 23000, roofMultiplier: 1.20 }, 
+            "NJ": { baseSolar: 22000, roofMultiplier: 1.15 },
+            "FL": { baseSolar: 19500, roofMultiplier: 1.05 }, // High volume market
+            "TX": { baseSolar: 18800, roofMultiplier: 0.95 }, // Lower labor costs
+            "AZ": { baseSolar: 18500, roofMultiplier: 0.95 }, 
+            "NV": { baseSolar: 19000, roofMultiplier: 1.00 },
+            "CO": { baseSolar: 21000, roofMultiplier: 1.05 },
+            "OH": { baseSolar: 20500, roofMultiplier: 1.00 },
+            "PA": { baseSolar: 21500, roofMultiplier: 1.10 },
+            "GA": { baseSolar: 19000, roofMultiplier: 0.95 },
+            "NC": { baseSolar: 19500, roofMultiplier: 0.95 },
+            "US": { baseSolar: 20000, roofMultiplier: 1.00 }  // National Default Fallback
+        };
+
+        // Helper function to extract State from raw text input
+        function detectStateFromAddress(addressString) {
+            var cleanAddress = addressString.toUpperCase();
+            for (var stateCode in statePricingMatrix) {
+                if (stateCode === "US") continue;
+                // Looks for exact boundaries like " CA ", " CA,", or " CALIFORNIA"
+                var regexPattern = new RegExp('\\b(' + stateCode + '|' + getFullStateName(stateCode) + ')\\b');
+                if (regexPattern.test(cleanAddress)) {
+                    return stateCode;
+                }
+            }
+            return "US"; // Return fallback if undetected
+        }
+
+        function getFullStateName(code) {
+            var states = {
+                "CA": "CALIFORNIA", "NY": "NEW YORK", "NJ": "NEW JERSEY", "FL": "FLORIDA",
+                "TX": "TEXAS", "AZ": "ARIZONA", "NV": "NEVADA", "CO": "COLORADO",
+                "OH": "OHIO", "PA": "PENNSYLVANIA", "GA": "GEORGIA", "NC": "NORTH CAROLINA"
+            };
+            return states[code] || "";
+        }
 
         // LANDING PAGE TO WIZARD SWITCH
         document.getElementById('start-wizard-btn').addEventListener('click', function() {
@@ -267,10 +308,11 @@
         document.getElementById('find-roof-button').addEventListener('click', function() {
             var userAddress = document.getElementById('address-input').value;
             if(userAddress === "") {
-                alert("Please type an address first!");
+                alert("Please type your address first!");
                 return;
             }
             savedAnswers.address = userAddress;
+            savedAnswers.detectedState = detectStateFromAddress(userAddress);
             document.getElementById('display-address').innerText = userAddress;
 
             // Google Static Maps API Loader
@@ -329,44 +371,50 @@
             savedAnswers.hasHOA = document.getElementById('hoa-checkbox').checked;
             savedAnswers.hasLeak = document.getElementById('leak-checkbox').checked;
 
-            var baseSolarCost = 20000;
+            // Fetch dynamic state pricing rates
+            var pricingConfig = statePricingMatrix[savedAnswers.detectedState];
+            var baseSolarCost = pricingConfig.baseSolar;
+            var laborMultiplier = pricingConfig.roofMultiplier;
+
             var taxCredit = baseSolarCost * 0.30;
             var roofCost = 0;
 
             if (savedAnswers.roofMaterial === "Tile") {
                 if (savedAnswers.roofAge === "Old" || savedAnswers.roofAge === "Mid") {
-                    roofCost = 12500;
+                    roofCost = 12500 * laborMultiplier;
                     document.getElementById('roof-label').innerText = "Tile Remove & Reset (TR&R):";
                 }
                 document.getElementById('specialty-text').innerText = "Concrete Tile Systems";
             } 
             else if (savedAnswers.roofMaterial === "Shingle") {
                 if (savedAnswers.roofAge === "Old") {
-                    roofCost = 8000;
+                    roofCost = 8000 * laborMultiplier;
                     document.getElementById('roof-label').innerText = "Shingle Roof Replacement:";
                 }
                 document.getElementById('specialty-text').innerText = "Asphalt Shingle Roofing";
             }
             else {
                 if (savedAnswers.roofAge === "Old") {
-                    roofCost = 6000;
+                    roofCost = 6000 * laborMultiplier;
                 }
                 document.getElementById('specialty-text').innerText = "Flat/Foam Coating";
             }
 
             if (savedAnswers.hasLeak) {
-                roofCost += 750;
+                roofCost += (750 * laborMultiplier);
             }
 
             var finalTotal = baseSolarCost - taxCredit + roofCost;
 
+            // Update display layout view
+            document.getElementById('detected-state-text').innerText = savedAnswers.detectedState + " Market Rate";
             document.getElementById('result-address-text').innerText = savedAnswers.address;
             document.getElementById('solar-cost-text').innerText = "$" + baseSolarCost.toLocaleString();
             document.getElementById('tax-credit-text').innerText = "-$" + taxCredit.toLocaleString();
-            document.getElementById('roof-cost-text').innerText = "$" + roofCost.toLocaleString();
-            document.getElementById('total-cost-text').innerText = "$" + finalTotal.toLocaleString();
+            document.getElementById('roof-cost-text').innerText = "$" + Math.round(roofCost).toLocaleString();
+            document.getElementById('total-cost-text').innerText = "$" + Math.round(finalTotal).toLocaleString();
 
-            // 🚀 FIRE DATA PACKET UNCONDITIONALLY TO MAKE.COM
+            // 🚀 FIRE CLEAN DATA PACKET TO MAKE.COM
             var ghlWebhookUrl = "https://hook.us2.make.com/plxowlvlvajy4a14gst4eppp917l71c6"; 
             
             fetch(ghlWebhookUrl, {
@@ -375,14 +423,15 @@
                 body: JSON.stringify({
                     email: savedAnswers.email,
                     address: savedAnswers.address,
+                    state: savedAnswers.detectedState,
                     roofMaterial: savedAnswers.roofMaterial,
                     roofAge: savedAnswers.roofAge,
                     hasHOA: savedAnswers.hasHOA ? "Yes" : "No",
                     hasLeak: savedAnswers.hasLeak ? "Yes" : "No",
                     estimatedGrossCost: baseSolarCost,
                     taxCreditValue: taxCredit,
-                    additionalRoofCost: roofCost,
-                    estimatedTotalInvestment: finalTotal,
+                    additionalRoofCost: Math.round(roofCost),
+                    estimatedTotalInvestment: Math.round(finalTotal),
                     source: "National Solar & Roof Estimator Tool"
                 })
             }).then(function() {
