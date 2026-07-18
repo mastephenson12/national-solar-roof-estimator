@@ -239,7 +239,7 @@
             <span id="total-cost-text" style="color: #0284c7;">$0</span>
         </div>
 
-        <div style="background-color: #f0f9ff; padding: 20px; border-radius: 8px; border: BAe6fd; text-align: center;">
+        <div style="background-color: #f0f9ff; padding: 20px; border-radius: 8px; border: 1px solid #bae6fd; text-align: center;">
             <h3 style="margin-top: 0; color: #0369a1;">🛡️ Avoid the Contractor Scam</h3>
             <p style="font-size: 14px; color: #0369a1; line-height: 1.4;">We can connect you with up to 3 vetted, licensed local pros who specialize in <span id="specialty-text">your roof type</span>.</p>
             <button id="request-bids-btn" style="background-color: #22c55e; color: white; padding: 12px 20px; font-size: 16px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%;">Request Vetted Bids</button>
@@ -409,31 +409,36 @@
             document.getElementById('roof-cost-text').innerText = "$" + Math.round(roofCost).toLocaleString();
             document.getElementById('total-cost-text').innerText = "$" + Math.round(finalTotal).toLocaleString();
 
-            // 🚀 FIRE CLEAN DATA PACKET TO MAKE.COM (OPTIMIZED FOR CORS BYPASS)
+            // 🚀 FIRE CLEAN DATA PACKET TO MAKE.COM (BYPASSES CORS BLIND SPOTS)
             var ghlWebhookUrl = "https://hook.us2.make.com/plxowlvlvajy4a14gst4eppp917l71c6"; 
-            
+
+            var formData = new URLSearchParams();
+            formData.append("email", savedAnswers.email);
+            formData.append("address", savedAnswers.address);
+            formData.append("state", savedAnswers.detectedState);
+            formData.append("roofMaterial", savedAnswers.roofMaterial);
+            formData.append("roofAge", savedAnswers.roofAge);
+            formData.append("hasHOA", savedAnswers.hasHOA ? "Yes" : "No");
+            formData.append("hasLeak", savedAnswers.hasLeak ? "Yes" : "No");
+            formData.append("estimatedGrossCost", baseSolarCost);
+            formData.append("taxCreditValue", taxCredit);
+            formData.append("additionalRoofCost", Math.round(roofCost));
+            formData.append("estimatedTotalInvestment", Math.round(finalTotal));
+            formData.append("source", "National Solar & Roof Estimator Tool");
+
+            // Fallback parameters to satisfy strict GoHighLevel requirements
+            formData.append("firstName", "Solar");
+            formData.append("lastName", "Lead");
+
             fetch(ghlWebhookUrl, {
                 method: "POST",
-                mode: "no-cors",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    email: savedAnswers.email,
-                    address: savedAnswers.address,
-                    state: savedAnswers.detectedState,
-                    roofMaterial: savedAnswers.roofMaterial,
-                    roofAge: savedAnswers.roofAge,
-                    hasHOA: savedAnswers.hasHOA ? "Yes" : "No",
-                    hasLeak: savedAnswers.hasLeak ? "Yes" : "No",
-                    estimatedGrossCost: baseSolarCost,
-                    taxCreditValue: taxCredit,
-                    additionalRoofCost: Math.round(roofCost),
-                    estimatedTotalInvestment: Math.round(finalTotal),
-                    source: "National Solar & Roof Estimator Tool"
-                })
-            }).then(function() {
-                console.log("Transmission initialized under safe cross-origin protocols.");
-            }).catch(function(err) {
-                console.log("Transmission Critical Error:", err);
+                body: formData
+            })
+            .then(function() {
+                console.log("Data transmitted successfully to automation handler.");
+            })
+            .catch(function(err) {
+                console.log("Transmission Error:", err);
             });
 
             document.getElementById('step-5-screen').style.display = 'none';
