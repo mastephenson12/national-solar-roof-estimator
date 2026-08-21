@@ -40,7 +40,7 @@
     const $=s=>document.querySelector(s),all=s=>[...document.querySelectorAll(s)];
     let step=1;
     const pricingReviewed='August 2026';
-    const money=n=>'
+    const money=n=>String.fromCharCode(36)+(Math.round(n/50)*50).toLocaleString();
     const rangeText=(lo,hi)=>money(lo)+'–'+money(hi);
     const regional=z=>{
       const prefix=Number(z.slice(0,3)),first=Number(z.slice(0,1));
