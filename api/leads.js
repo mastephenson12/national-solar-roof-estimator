@@ -30,7 +30,7 @@ module.exports = async function handler(request, response) {
   }
   if (!ALLOWED_ORIGINS.has(clean(request.headers.origin, 200))) return reject(response, 403, 'Origin not allowed');
   if (rateLimited(request)) return reject(response, 429, 'Too many requests');
-  if (!process.env.MAKE_WEBHOOK_URL) return reject(response, 503, 'Lead service unavailable');
+  if (!process.env.MAKE_WEBHOOK_URL || !process.env.MAKE_WEBHOOK_API_KEY) return reject(response, 503, 'Lead service unavailable');
 
   const body = request.body && typeof request.body === 'object' ? request.body : {};
   if (body.website) return response.status(202).json({ ok: true });
@@ -56,12 +56,14 @@ module.exports = async function handler(request, response) {
 
   const makeBody = new URLSearchParams({ ...lead,
     tearOff: lead.tearOff ? 'Yes' : 'No', leak: lead.leak ? 'Yes' : 'No',
-    decking: lead.decking ? 'Yes' : 'No', solar: lead.solar ? 'Yes' : 'No', consent: 'Yes',
-    proxySecret: process.env.MAKE_WEBHOOK_SECRET || ''
+    decking: lead.decking ? 'Yes' : 'No', solar: lead.solar ? 'Yes' : 'No', consent: 'Yes'
   });
   try {
     const upstream = await fetch(process.env.MAKE_WEBHOOK_URL, {
-      method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+      method: 'POST', headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        'x-make-apikey': process.env.MAKE_WEBHOOK_API_KEY
+      },
       body: makeBody, signal: AbortSignal.timeout(8000)
     });
     if (!upstream.ok) throw new Error(`Make returned ${upstream.status}`);
