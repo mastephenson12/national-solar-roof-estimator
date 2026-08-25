@@ -7,8 +7,8 @@ This is a smart website helper that helps homeowners across the United States fi
 ## Secure lead handoff
 
 The inspection request is proxied through `/api/leads`, so the Make webhook is not shipped to browsers.
-Set `MAKE_WEBHOOK_URL` and `MAKE_WEBHOOK_SECRET` in Vercel, then redeploy. The Make scenario should reject
-submissions whose `proxySecret` does not exactly match `MAKE_WEBHOOK_SECRET`.
+Create the webhook with Make's native API-key protection. Set `MAKE_WEBHOOK_URL` and
+`MAKE_WEBHOOK_API_KEY` in Vercel, then redeploy. The server sends the key in the `x-make-apikey` header.
 
 ## How it works:
 - Step 1: Takes the homeowner's address.
