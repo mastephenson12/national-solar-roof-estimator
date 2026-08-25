@@ -4,6 +4,12 @@ This is a smart website helper that helps homeowners across the United States fi
 1. How much solar energy their roof can catch.
 2. If their roof needs to be repaired or refreshed before the solar panels go on.
 
+## Secure lead handoff
+
+The inspection request is proxied through `/api/leads`, so the Make webhook is not shipped to browsers.
+Set `MAKE_WEBHOOK_URL` and `MAKE_WEBHOOK_SECRET` in Vercel, then redeploy. The Make scenario should reject
+submissions whose `proxySecret` does not exactly match `MAKE_WEBHOOK_SECRET`.
+
 ## How it works:
 - Step 1: Takes the homeowner's address.
 - Step 2: Shows them a satellite map of their house.
