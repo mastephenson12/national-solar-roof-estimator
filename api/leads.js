@@ -1,7 +1,7 @@
 const attempts = new Map();
 const ALLOWED_ORIGINS = new Set(['https://estimator.midsizeai.com']);
 const CONTACT_METHODS = new Set(['email', 'phone', 'text']);
-const MATERIALS = new Set(['shingle', 'tile', 'metal', 'flat']);
+const MATERIALS = new Set(['shingle', 'tile', 'tileReuse', 'metal', 'flat']);
 const COMPLEXITIES = new Set(['simple', 'moderate', 'complex']);
 const AGES = new Set(['new', 'mid', 'old']);
 
