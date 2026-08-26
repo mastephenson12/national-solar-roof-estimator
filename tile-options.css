@@ -1,0 +1,3 @@
+.tile-plan{margin-top:20px;padding:18px;border:1px solid rgba(251,191,36,.35);border-radius:14px;background:rgba(251,191,36,.06)}
+.tile-plan[hidden]{display:none}
+.tile-plan .fine{margin:0 0 14px}
