@@ -11,9 +11,7 @@
   <meta property="og:url" content="https://estimator.midsizeai.com/">
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#020617">
-  <style>
-    :root{--navy:#020617;--panel:#0f172a;--line:#334155;--muted:#94a3b8;--white:#f8fafc;--amber:#fbbf24;--green:#34d399;--red:#f87171}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--navy);color:var(--white);line-height:1.55}a{color:inherit}.wrap{width:min(1120px,calc(100% - 32px));margin:auto}.top{border-bottom:1px solid #1e293b;background:rgba(2,6,23,.94);position:sticky;top:0;z-index:5}.nav{min-height:68px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{font-size:1.35rem;font-weight:900;text-decoration:none}.brand span,.eyebrow,.accent{color:var(--amber)}.back{font-size:.9rem;color:#cbd5e1;text-decoration:none}.hero{text-align:center;padding:72px 0 44px}.eyebrow{font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.hero h1{font-size:clamp(2.2rem,6vw,4.4rem);line-height:1.05;letter-spacing:-.045em;max-width:900px;margin:14px auto 22px}.hero p{color:#cbd5e1;font-size:clamp(1rem,2vw,1.2rem);max-width:720px;margin:0 auto 30px}.trust{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;color:#cbd5e1;font-size:.86rem}.trust span{padding:7px 12px;border:1px solid var(--line);border-radius:999px;background:#0f172a}.tool{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(260px,.55fr);gap:24px;padding:20px 0 72px}.card{background:linear-gradient(145deg,rgba(15,23,42,.98),rgba(15,23,42,.78));border:1px solid var(--line);border-radius:24px;padding:clamp(22px,4vw,38px);box-shadow:0 24px 70px rgba(0,0,0,.25)}.progress{height:7px;background:#1e293b;border-radius:999px;overflow:hidden;margin:12px 0 30px}.progress i{display:block;height:100%;width:16.66%;background:var(--amber);transition:width .25s}.step{display:none}.step.active{display:block}.step h2{font-size:clamp(1.55rem,4vw,2.15rem);margin:0 0 8px}.help{color:var(--muted);margin:0 0 24px}.field{margin:18px 0}.field label,.label{display:block;font-weight:750;margin-bottom:8px}.field input,.field select{width:100%;padding:14px;border-radius:11px;border:1px solid #475569;background:#020617;color:white;font:inherit}.field input:focus,.field select:focus{outline:3px solid rgba(251,191,36,.22);border-color:var(--amber)}.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.choice{position:relative}.choice input{position:absolute;opacity:0}.choice label{height:100%;display:block;border:1px solid #475569;border-radius:14px;padding:16px;cursor:pointer;background:#020617}.choice label strong{display:block}.choice label small{color:var(--muted)}.choice input:checked+label{border-color:var(--amber);box-shadow:0 0 0 2px rgba(251,191,36,.22);background:#1c1917}.actions{display:flex;gap:12px;margin-top:28px}.btn{appearance:none;border:0;border-radius:11px;padding:13px 20px;font:inherit;font-weight:800;cursor:pointer}.primary{background:var(--amber);color:#111827}.secondary{background:#1e293b;color:white;border:1px solid #475569}.btn:focus-visible{outline:3px solid white;outline-offset:3px}.side h3{margin-top:0}.side ul{padding-left:20px;color:#cbd5e1}.side li{margin:10px 0}.fine{font-size:.78rem;color:var(--muted)}.result{display:none}.result.active{display:block}.range{font-size:clamp(2.2rem,6vw,4rem);font-weight:900;letter-spacing:-.04em;color:var(--amber);margin:10px 0}.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:24px 0}.stat{background:#020617;border:1px solid var(--line);border-radius:13px;padding:15px}.stat small{display:block;color:var(--muted)}.stat strong{font-size:1.1rem}.snapshot{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.snapshot-item{background:#020617;border:1px solid var(--line);border-radius:13px;padding:14px}.snapshot-item small{display:block;color:var(--muted)}.snapshot-item strong{display:block;margin-top:3px}.factors{background:#020617;border:1px solid var(--line);border-radius:14px;padding:20px}.factors h3{margin-top:0}.factors li{margin:8px 0}.report-section{margin-top:22px}.report-section h3{margin:0 0 8px}.report-section .intro{color:var(--muted);font-size:.88rem;margin:0 0 14px}.breakdown{width:100%;border-collapse:collapse;background:#020617;border:1px solid var(--line);border-radius:14px;overflow:hidden}.breakdown th,.breakdown td{padding:13px 15px;border-bottom:1px solid #1e293b;text-align:left}.breakdown th:last-child,.breakdown td:last-child{text-align:right}.breakdown th{color:#cbd5e1;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em}.breakdown tr:last-child td{border-bottom:0}.breakdown .total td{font-weight:900;color:var(--amber)}.comparison{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.compare-card{background:#020617;border:1px solid var(--line);border-radius:13px;padding:15px}.compare-card.selected{border-color:var(--amber)}.compare-card small{color:var(--muted);display:block}.compare-card strong{display:block;font-size:1.05rem;margin:5px 0}.assumptions{background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.28);border-radius:14px;padding:18px}.assumptions ul,.questions{margin-bottom:0;padding-left:20px}.report-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.updated{font-size:.76rem;color:var(--muted);margin-top:12px}.next{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}.next article{border:1px solid var(--line);border-radius:14px;padding:18px}.next h3{margin:0 0 8px}.consent{display:flex;align-items:flex-start;gap:10px;font-size:.82rem;color:#cbd5e1;margin:14px 0}.consent input{margin-top:4px}.notice{padding:14px;border-radius:12px;margin-top:14px;display:none}.notice.ok{display:block;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.35);color:#a7f3d0}.notice.bad{display:block;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.35);color:#fecaca}.legal{border-top:1px solid #1e293b;padding:34px 0;color:var(--muted);font-size:.82rem}.legal .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.legal nav{display:flex;gap:16px}.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media print{.top,.hero,.side,.next,#restart,.report-actions,.legal{display:none!important}.tool{display:block;padding:0}.card{border:0;box-shadow:none;padding:0;color:#111;background:white}.result{color:#111}.range,.accent,.eyebrow{color:#92400e!important}.stat,.factors,.breakdown,.compare-card,.assumptions{background:white;border-color:#cbd5e1;color:#111}.help,.fine,.updated,.report-section .intro,.compare-card small{color:#475569}.breakdown th{color:#334155}}@media(max-width:780px){.tool{grid-template-columns:1fr}.side{order:-1}.hero{padding-top:48px}.choices,.next,.result-grid,.comparison,.snapshot{grid-template-columns:1fr}.actions{flex-direction:column-reverse}.btn{width:100%}.back{display:none}}
-  </style>
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
   <header class="top"><div class="wrap nav"><a class="brand" href="https://midsizeai.com">MidSize<span>AI</span></a><a class="back" href="https://midsizeai.com">&larr; Back to MidSize AI</a></div></header>
@@ -36,82 +34,6 @@
     </section>
   </main>
   <footer class="legal"><div class="wrap"><span>&copy; 2026 MidSize AI. Educational planning estimates only.</span><nav><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms & estimate disclaimer</a><a href="https://midsizeai.com">MidSize AI</a></nav></div></footer>
-  <script>
-    const $=s=>document.querySelector(s),all=s=>[...document.querySelectorAll(s)];
-    let step=1;
-    const pricingReviewed='August 2026';
-    const money=n=>String.fromCharCode(36)+(Math.round(n/50)*50).toLocaleString();
-    const rangeText=(lo,hi)=>money(lo)+'–'+money(hi);
-    const regional=z=>{
-      const prefix=Number(z.slice(0,3)),first=Number(z.slice(0,1));
-      if(prefix>=850&&prefix<=853)return{m:1.08,n:'Phoenix metro planning factor',note:'ZIP-based Phoenix metro adjustment; not a live contractor price feed.'};
-      if(prefix>=855&&prefix<=857)return{m:1.06,n:'Southern Arizona planning factor',note:'Arizona planning adjustment; local bids may vary.'};
-      if(prefix>=859&&prefix<=865)return{m:1.10,n:'Northern Arizona planning factor',note:'Arizona planning adjustment with added allowance for regional labor and logistics.'};
-      if(first===9)return{m:1.12,n:'Western U.S. planning factor',note:'Broad regional adjustment; local contractor pricing may vary.'};
-      if(first===0||first===1)return{m:1.18,n:'Northeast planning factor',note:'Broad regional adjustment; local contractor pricing may vary.'};
-      if(first===3)return{m:1.02,n:'Southeast planning factor',note:'Broad regional adjustment; local contractor pricing may vary.'};
-      if(first===7)return{m:.96,n:'South Central planning factor',note:'Broad regional adjustment; local contractor pricing may vary.'};
-      if(first===5||first===6)return{m:1,n:'Midwest planning factor',note:'Broad regional adjustment; local contractor pricing may vary.'};
-      return{m:1.04,n:'National planning factor',note:'Broad national adjustment because a more specific local model is not available for this ZIP.'};
-    };
-    const systems={
-      shingle:{label:'Asphalt shingles',materials:[190,310],labor:[285,440]},
-      tile:{label:'Concrete / clay tile',materials:[430,700],labor:[420,650]},
-      metal:{label:'Standing-seam metal',materials:[500,850],labor:[450,750]},
-      flat:{label:'Flat / foam system',materials:[300,500],labor:[350,550]}
-    };
-    function show(n){step=n;all('.step').forEach(x=>x.classList.toggle('active',Number(x.dataset.step)===n));$('#progressText').textContent=`Step ${n} of 6`;$('#progressBar').style.width=`${n/6*100}%`;window.scrollTo({top:Math.max(0,$('#wizard').offsetTop-100),behavior:'smooth'})}
-    function valid(){if(step===1&&!/^\d{5}$/.test($('#zip').value)){alert('Please enter a five-digit ZIP code.');return false}if(step===2){const s=Number($('#sqft').value);if(s<500||s>15000){alert('Please enter an approximate home size between 500 and 15,000 square feet.');return false}}return true}
-    function project(material){
-      const sqft=Number($('#sqft').value),stories=Number($('input[name=stories]:checked').value),complexity=$('input[name=complexity]:checked').value,age=$('input[name=age]:checked').value,reg=regional($('#zip').value);
-      const area=sqft*(stories===1?1.28:.72)*({simple:1,moderate:1.12,complex:1.25}[complexity]),squares=area/100,system=systems[material];
-      const complexityLabor={simple:1,moderate:1.12,complex:1.28}[complexity],storyLabor=stories>1?1.1:1;
-      const components=[
-        {label:system.label+' materials and standard accessories',low:squares*system.materials[0]*reg.m,high:squares*system.materials[1]*reg.m},
-        {label:'Installation labor',low:squares*system.labor[0]*reg.m*complexityLabor*storyLabor,high:squares*system.labor[1]*reg.m*complexityLabor*storyLabor},
-        {label:'Permit and project administration allowance',low:250*reg.m,high:800*reg.m}
-      ];
-      if($('#tearoff').checked)components.push({label:'Tear-off, hauling, and disposal',low:squares*75,high:squares*150});
-      if($('#leak').checked)components.push({label:'Leak investigation and localized repair allowance',low:500,high:2500});
-      if($('#decking').checked)components.push({label:'Known decking replacement allowance',low:1500,high:6000});
-      if($('#solar').checked)components.push({label:'Solar removal and reinstallation allowance',low:3500,high:7500});
-      if(age==='old')components.push({label:'Older-roof preparation contingency',low:squares*20,high:squares*80});
-      const low=components.reduce((sum,x)=>sum+x.low,0),high=components.reduce((sum,x)=>sum+x.high,0);
-      return{low,high,area,squares,components,reg,stories,complexity,age,material};
-    }
-    all('.nextBtn').forEach(b=>b.addEventListener('click',()=>valid()&&show(step+1)));
-    all('.backBtn').forEach(b=>b.addEventListener('click',()=>show(step-1)));
-    $('#calculate').addEventListener('click',()=>{
-      const material=$('input[name=material]:checked').value,p=project(material),roundedLow=Math.round(p.low/500)*500,roundedHigh=Math.round(p.high/500)*500;
-      const factors=[`${systems[material].label} over approximately ${Math.round(p.area/50)*50} sq ft of estimated roof area`,p.reg.note];
-      if($('#tearoff').checked)factors.push('Removal and disposal of the existing roof');
-      if(p.stories>1)factors.push('Multi-story access and staging');
-      if(p.complexity!=='simple')factors.push(`${p.complexity==='complex'?'Steep or complex':'Moderately complex'} roof geometry`);
-      if($('#leak').checked)factors.push('Allowance for investigation and localized leak repairs');
-      if($('#decking').checked)factors.push('Allowance for known decking replacement');
-      if($('#solar').checked)factors.push('Solar panel removal and reinstallation allowance');
-      if(p.age==='old')factors.push('Older roof with higher preparation risk');
-      window.estimate={low:roundedLow,high:roundedHigh,zip:$('#zip').value,sqft:Number($('#sqft').value),material,roofArea:Math.round(p.area),stories:p.stories,complexity:p.complexity,tearOff:$('#tearoff').checked,leak:$('#leak').checked,decking:$('#decking').checked,solar:$('#solar').checked,age:p.age,region:p.reg.n};
-      $('#range').textContent=rangeText(roundedLow,roundedHigh);
-      $('#roofArea').textContent=`${Math.round(p.area/50)*50} sq ft`;
-      $('#perSquare').textContent=rangeText(roundedLow/p.squares,roundedHigh/p.squares);
-      $('#region').textContent=p.reg.n;
-      $('#factors').innerHTML=factors.map(x=>`<li>${x}</li>`).join('');
-      const work=[window.estimate.tearOff?'Existing roof removal':null,window.estimate.leak?'Active leak':null,window.estimate.decking?'Known soft decking':null,window.estimate.solar?'Solar panels':null].filter(Boolean);
-      const ageLabel=p.age==='new'?'Under 10 years':p.age==='old'?'More than 20 years':'10–20 years or unsure';
-      $('#snapshot').innerHTML=[[`ZIP code`,window.estimate.zip],[`Home`,`${window.estimate.sqft.toLocaleString()} sq ft · ${p.stories===1?'1 story':'2+ stories'}`],[`Roofing system`,systems[material].label],[`Roof shape`,p.complexity.charAt(0).toUpperCase()+p.complexity.slice(1)],[`Existing roof age`,ageLabel],[`Known project conditions`,work.length?work.join(', '):'None selected']].map(([label,value])=>`<div class="snapshot-item"><small>${label}</small><strong>${value}</strong></div>`).join('');
-      $('#breakdown').innerHTML=p.components.map(x=>`<tr><td>${x.label}</td><td>${rangeText(x.low,x.high)}</td></tr>`).join('')+`<tr class="total"><td>Estimated total</td><td>${rangeText(roundedLow,roundedHigh)}</td></tr>`;
-      $('#comparison').innerHTML=['shingle','tile','metal'].map(key=>{const alt=project(key);return `<article class="compare-card ${key===material?'selected':''}"><small>${key===material?'Your selection':'Alternative'}</small><strong>${systems[key].label}</strong><span>${rangeText(Math.round(alt.low/500)*500,Math.round(alt.high/500)*500)}</span></article>`}).join('');
-      $('#assumptions').innerHTML=[`Roof area is estimated from ${Number($('#sqft').value).toLocaleString()} sq ft of living area, ${p.stories===1?'one story':'two or more stories'}, and the selected roof complexity. It is not an aerial or onsite measurement.`,`Pricing uses a ${p.reg.n.toLowerCase()} applied to planning rates, not live contractor inventory or bidding data.`,'The range assumes ordinary residential access and excludes structural engineering, asbestos, major framing repairs, gutters, skylights, unusual access, financing costs, and unselected code work.','Only an onsite inspection can determine exact quantities, hidden damage, code requirements, and a binding price.'].map(x=>`<li>${x}</li>`).join('');
-      $('#pricingDate').textContent=`Planning rates last reviewed: ${pricingReviewed}. Recheck pricing before making a hiring or financing decision.`;
-      $('#wizard').style.display='none';$('#result').classList.add('active');window.scrollTo({top:$('#result').offsetTop-100,behavior:'smooth'});
-    });
-    function note(msg,ok=true){$('#notice').className=`notice ${ok?'ok':'bad'}`;$('#notice').textContent=msg}
-    $('#printEstimate').addEventListener('click',()=>window.print());
-    $('#editEstimate').addEventListener('click',()=>{$('#result').classList.remove('active');$('#wizard').style.display='block';show(1)});
-    $('#saveReport').addEventListener('click',()=>window.print());
-    $('#requestHelp').addEventListener('click',async()=>{const name=$('#leadName').value.trim(),email=$('#leadEmail').value.trim(),phone=$('#leadPhone').value.trim(),contactMethod=$('#contactMethod').value,digits=phone.replace(/\D/g,'');if(!name)return note('Enter your first name.',false);if(!email&&!phone)return note('Enter an email address or mobile phone number.',false);if(email&&!/^\S+@\S+\.\S+$/.test(email))return note('Enter a valid email address.',false);if(phone&&digits.length<10)return note('Enter a valid phone number.',false);if(contactMethod==='email'&&!email)return note('Enter an email address for email contact.',false);if((contactMethod==='text'||contactMethod==='phone')&&!phone)return note('Enter a phone number for your selected contact method.',false);if(!$('#consent').checked)return note('Please check the consent box before requesting an inspection.',false);try{const response=await fetch('/api/leads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...window.estimate,name,email,phone,contactMethod,website:'',consent:true})});const payload=await response.json().catch(()=>({}));if(!response.ok)throw new Error(payload.error||'Submission failed');note('Your request was sent. A roofing professional may contact you by your preferred method.')}catch(e){note(e.message==='Too many requests'?'Please wait a few minutes before trying again.':'We could not send the request. Please try again later.',false)}});
-    $('#restart').addEventListener('click',()=>location.reload());
-  </script>
+  <script src="/app.js" defer></script>
 </body>
 </html>
