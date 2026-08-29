@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AI Roof Visualizer | Preview Roof Styles on Your Home | MidSize AI</title>
+  <meta name="description" content="Upload a photo of your home and create an AI concept preview of different roofing materials and colors.">
+  <link rel="canonical" href="https://estimator.midsizeai.com/visualizer.html">
+  <meta name="theme-color" content="#020617">
+  <link rel="icon" type="image/png" href="https://assets.cdn.filesafe.space/4KrpVlm3YRqGK57uMxXO/media/6a8f403ad6548da0f135fb6c.png">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GMPF16SQ8L"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-GMPF16SQ8L');</script>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="top"><div class="wrap nav"><a class="brand" href="/">MidSize<span>AI</span></a><a class="back" href="/">&larr; Roof Cost Estimator</a></div></header>
+  <main>
+    <section class="hero wrap visualizer-hero">
+      <div class="eyebrow">Free homeowner concept tool</div>
+      <h1>See a new roof <span class="accent">on your home.</span></h1>
+      <p>Upload a clear exterior photo, choose a roofing system and color, and create an AI concept preview before you request physical samples or a professional inspection.</p>
+      <div class="trust"><span>&#10003; Your own home photo</span><span>&#10003; Material + color ideas</span><span>&#10003; No contractor call required</span></div>
+    </section>
+
+    <section class="visualizer-layout wrap" aria-label="AI roof visualizer">
+      <div class="card visualizer-controls">
+        <div class="eyebrow">Step 1</div>
+        <h2>Upload a house photo</h2>
+        <p class="help">Use a daylight photo showing as much of the roof as possible. You must own the photo or have permission to use it.</p>
+        <label class="upload-zone" for="housePhoto">
+          <strong>Choose a photo</strong>
+          <span>JPEG, PNG or WebP · up to 8 MB</span>
+          <input id="housePhoto" type="file" accept="image/jpeg,image/png,image/webp">
+        </label>
+
+        <div class="eyebrow section-step">Step 2</div>
+        <h2>Choose the roof</h2>
+        <div class="field">
+          <label for="roofMaterial">Roofing system</label>
+          <select id="roofMaterial">
+            <option value="architectural asphalt shingles">Architectural asphalt shingles</option>
+            <option value="standing-seam metal roofing">Standing-seam metal</option>
+            <option value="flat-profile concrete tile">Concrete tile</option>
+            <option value="traditional clay barrel tile">Clay tile</option>
+          </select>
+        </div>
+        <fieldset class="color-fieldset">
+          <legend>Concept color</legend>
+          <div class="color-options">
+            <label><input type="radio" name="roofColor" value="charcoal gray" checked><span style="--swatch:#374151"></span>Charcoal</label>
+            <label><input type="radio" name="roofColor" value="weathered brown"><span style="--swatch:#6b4f3a"></span>Weathered brown</label>
+            <label><input type="radio" name="roofColor" value="desert tan"><span style="--swatch:#b79b72"></span>Desert tan</label>
+            <label><input type="radio" name="roofColor" value="terracotta red"><span style="--swatch:#a94932"></span>Terracotta</label>
+            <label><input type="radio" name="roofColor" value="matte black"><span style="--swatch:#111827"></span>Matte black</label>
+            <label><input type="radio" name="roofColor" value="forest green"><span style="--swatch:#244b3a"></span>Forest green</label>
+          </div>
+        </fieldset>
+
+        <label class="consent visualizer-consent"><input id="aiConsent" type="checkbox"> <span>I understand my photo will be sent securely to Google Gemini to create this preview. MidSize AI does not intentionally store the uploaded or generated image.</span></label>
+        <button class="btn primary" id="generateRoof" type="button">Create My Roof Preview</button>
+        <div id="visualizerNotice" class="notice" role="status" aria-live="polite"></div>
+      </div>
+
+      <div class="card visualizer-preview">
+        <div class="preview-heading"><div><div class="eyebrow">Concept preview</div><h2>Before and after</h2></div><button class="btn secondary" id="downloadPreview" type="button" hidden>Download preview</button></div>
+        <div class="image-comparison">
+          <figure><div class="image-stage empty" id="beforeStage"><span>Your original photo will appear here.</span><img id="beforeImage" alt="Original house photo" hidden></div><figcaption>Original</figcaption></figure>
+          <figure><div class="image-stage empty" id="afterStage"><span>Your AI roof concept will appear here.</span><img id="afterImage" alt="AI-generated roof concept preview" hidden></div><figcaption>AI concept</figcaption></figure>
+        </div>
+        <div class="visualizer-disclaimer">
+          <strong>Use this to explore—not to select a final product.</strong>
+          <p>AI can change details or represent colors imperfectly. Confirm actual material profile, color, availability, HOA rules and installation requirements with physical samples and a licensed roofing professional.</p>
+        </div>
+        <a class="btn secondary visualizer-estimate-link" href="/">Estimate the replacement cost &rarr;</a>
+      </div>
+    </section>
+  </main>
+  <footer class="legal"><div class="wrap"><span>&copy; 2026 MidSize AI. AI concept previews are illustrative only.</span><nav><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="https://midsizeai.com">MidSize AI</a></nav></div></footer>
+  <script src="/visualizer.js" defer></script>
+</body>
+</html>
