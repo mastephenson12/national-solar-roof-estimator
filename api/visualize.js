@@ -94,7 +94,7 @@ module.exports = async function handler(request, response) {
           { type: 'text', text: prompt },
           { type: 'image', mime_type: mimeType, data: imageData }
         ],
-        response_format: { type: 'image', mime_type: 'image/png' }
+        response_format: { type: 'image', mime_type: 'image/jpeg' }
       }),
       signal: AbortSignal.timeout(90000)
     });
