@@ -56,6 +56,14 @@ $('#housePhoto').addEventListener('change', event => {
   }
   if (originalUrl) URL.revokeObjectURL(originalUrl);
   originalUrl = URL.createObjectURL(file);
+  generatedUrl = '';
+  const afterStage = $('#afterStage');
+  const afterImage = $('#afterImage');
+  afterImage.removeAttribute('src');
+  afterImage.hidden = true;
+  afterStage.classList.add('empty');
+  afterStage.querySelector('span').hidden = false;
+  $('#downloadPreview').hidden = true;
   setStage($('#beforeStage'), $('#beforeImage'), originalUrl);
   showNotice('Photo ready. Choose a material and color, then create your preview.', true);
   track('roof_visualizer_photo_selected', { file_type: file.type });
@@ -101,7 +109,7 @@ $('#downloadPreview').addEventListener('click', () => {
   if (!generatedUrl) return;
   const link = document.createElement('a');
   link.href = generatedUrl;
-  link.download = 'midsize-ai-roof-concept.png';
+  link.download = 'midsize-ai-roof-concept.jpg';
   link.click();
   track('roof_visualizer_downloaded');
 });
