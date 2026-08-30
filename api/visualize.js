@@ -1,5 +1,8 @@
 const attempts = new Map();
-const ALLOWED_ORIGINS = new Set(['https://estimator.midsizeai.com']);
+const ALLOWED_ORIGINS = new Set([
+  'https://estimator.midsizeai.com',
+  process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : ''
+].filter(Boolean));
 const MATERIALS = new Set([
   'architectural asphalt shingles',
   'standing-seam metal roofing',
