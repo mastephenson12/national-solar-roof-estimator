@@ -21,6 +21,54 @@ function setStage(stage, image, url) {
   stage.querySelector('span').hidden = true;
 }
 
+function showMapNotice(message, ok = false) {
+  const notice = $('#mapNotice');
+  notice.className = `notice ${ok ? 'ok' : 'bad'}`;
+  notice.textContent = message;
+}
+
+$('#findHome').addEventListener('click', async () => {
+  const address = $('#homeAddress').value.trim();
+  if (address.length < 6) return showMapNotice('Enter a complete street address.');
+  const button = $('#findHome');
+  const reference = $('#streetviewReference');
+  reference.hidden = true;
+  button.disabled = true;
+  button.textContent = 'Checking…';
+  showMapNotice('Checking Google Street View for this address.', true);
+  try {
+    const response = await fetch('/api/streetview', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ address })
+    });
+    const payload = await response.json().catch(() => ({}));
+    if (response.status === 404 || payload.available === false) {
+      showMapNotice('No Google Street View image was found. You can still upload or take your own photo below.');
+      track('roof_visualizer_streetview_unavailable');
+      return;
+    }
+    if (!response.ok) throw new Error(payload.error || 'Street View is temporarily unavailable.');
+    $('#streetviewImage').src = `data:${payload.mimeType || 'image/jpeg'};base64,${payload.imageData}`;
+    reference.hidden = false;
+    showMapNotice('We found a Street View reference. Confirm the property, then upload your own photo below.', true);
+    track('roof_visualizer_streetview_found');
+  } catch (error) {
+    showMapNotice(error.message || 'Street View is unavailable. You can still upload your own photo below.');
+    track('roof_visualizer_streetview_error');
+  } finally {
+    button.disabled = false;
+    button.textContent = 'Find My Home';
+  }
+});
+
+$('#homeAddress').addEventListener('keydown', event => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    $('#findHome').click();
+  }
+});
+
 async function resizeImage(file) {
   const source = await createImageBitmap(file);
   const maxDimension = 1600;

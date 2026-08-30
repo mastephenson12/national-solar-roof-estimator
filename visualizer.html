@@ -29,7 +29,23 @@
     <section class="visualizer-layout wrap" aria-label="AI roof visualizer">
       <div class="card visualizer-controls">
         <div class="eyebrow">Step 1</div>
-        <h2>Upload a house photo</h2>
+        <h2>Find your home</h2>
+        <p class="help">Enter an address to check for a Google Street View reference. The Google image helps you confirm the property; it is not sent to the AI visualizer.</p>
+        <div class="address-lookup">
+          <div class="field">
+            <label for="homeAddress">Property address</label>
+            <input id="homeAddress" type="text" autocomplete="street-address" maxlength="200" placeholder="123 Main St, Phoenix, AZ">
+          </div>
+          <button class="btn secondary" id="findHome" type="button">Find My Home</button>
+        </div>
+        <div id="mapNotice" class="notice" role="status" aria-live="polite"></div>
+        <figure class="streetview-reference" id="streetviewReference" hidden>
+          <img id="streetviewImage" alt="Google Street View reference for the entered address">
+          <figcaption>Google Street View reference only. Upload your own photo below to create an AI roof concept.</figcaption>
+        </figure>
+
+        <div class="eyebrow section-step">Step 2</div>
+        <h2>Upload your house photo</h2>
         <p class="help">Use a daylight photo showing as much of the roof as possible. You must own the photo or have permission to use it.</p>
         <label class="upload-zone" for="housePhoto">
           <strong>Choose a photo</strong>
@@ -37,7 +53,7 @@
           <input id="housePhoto" type="file" accept="image/jpeg,image/png,image/webp">
         </label>
 
-        <div class="eyebrow section-step">Step 2</div>
+        <div class="eyebrow section-step">Step 3</div>
         <h2>Choose the roof</h2>
         <div class="field">
           <label for="roofMaterial">Roofing system</label>
