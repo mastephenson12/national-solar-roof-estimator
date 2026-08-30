@@ -1,8 +1,14 @@
 const attempts = new Map();
-const ALLOWED_ORIGINS = new Set([
-  'https://estimator.midsizeai.com',
-  process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : ''
-].filter(Boolean));
+function originAllowed(request) {
+  const origin = clean(request.headers.origin, 200);
+  const host = clean(request.headers.host, 200);
+  if (!origin || !host) return false;
+  try {
+    return new URL(origin).host === host;
+  } catch {
+    return false;
+  }
+}
 const MATERIALS = new Set([
   'architectural asphalt shingles',
   'standing-seam metal roofing',
@@ -49,7 +55,7 @@ module.exports = async function handler(request, response) {
     response.setHeader('Allow', 'POST');
     return reject(response, 405, 'Method not allowed');
   }
-  if (!ALLOWED_ORIGINS.has(clean(request.headers.origin, 200))) return reject(response, 403, 'Origin not allowed');
+  if (!originAllowed(request)) return reject(response, 403, 'Origin not allowed');
   if (rateLimited(request)) return reject(response, 429, 'You have reached the preview limit. Please try again later.');
   if (!process.env.GEMINI_API_KEY) return reject(response, 503, 'The roof visualizer is not configured yet.');
 
