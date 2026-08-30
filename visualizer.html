@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Virtual Roof Visualizer | MidSize AI</title>
+  <meta name="description" content="Upload a photo and create an AI-assisted concept of a new roof on your home.">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#020617">
+  <link rel="icon" type="image/png" href="https://assets.cdn.filesafe.space/4KrpVlm3YRqGK57uMxXO/media/6a8f403ad6548da0f135fb6c.png">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/visualizer.css">
+</head>
+<body>
+  <header class="top"><div class="wrap nav"><a class="brand" href="https://midsizeai.com">MidSize<span>AI</span></a><a class="back" href="/">&larr; Back to roof estimator</a></div></header>
+  <main class="visualizer wrap">
+    <section class="visualizer-intro">
+      <div class="eyebrow">AI-assisted concept tool</div>
+      <h1>See a new roof on <span class="accent">your home</span></h1>
+      <p>Upload a clear exterior photo, select a roof direction, and generate a planning concept. No contact information is required.</p>
+    </section>
+    <section class="visualizer-grid">
+      <div class="card">
+        <form id="visualizerForm">
+          <div class="field">
+            <label for="homePhoto">Exterior photo of your home</label>
+            <input id="homePhoto" type="file" accept="image/jpeg,image/png,image/webp" required>
+            <p class="fine">Use a daylight photo showing the full roof. Maximum 7 MB. Avoid people, license plates, and other private details.</p>
+          </div>
+          <div class="preview-frame" id="uploadPreview" hidden>
+            <img id="sourceImage" alt="Uploaded home">
+          </div>
+          <fieldset>
+            <legend>Roofing system</legend>
+            <div class="choices">
+              <div class="choice"><input type="radio" name="roofMaterial" id="vizShingle" value="architectural asphalt shingles" checked><label for="vizShingle"><strong>Asphalt shingles</strong><small>Dimensional architectural style</small></label></div>
+              <div class="choice"><input type="radio" name="roofMaterial" id="vizMetal" value="standing-seam metal roofing"><label for="vizMetal"><strong>Standing-seam metal</strong><small>Clean vertical panels</small></label></div>
+              <div class="choice"><input type="radio" name="roofMaterial" id="vizTile" value="concrete roof tile"><label for="vizTile"><strong>Concrete tile</strong><small>Profiled tile appearance</small></label></div>
+            </div>
+          </fieldset>
+          <div class="field">
+            <label for="roofColor">Color direction</label>
+            <select id="roofColor">
+              <option>Charcoal gray</option>
+              <option>Weathered wood brown</option>
+              <option>Warm desert tan</option>
+              <option>Deep black</option>
+              <option>Terracotta</option>
+              <option>Light gray</option>
+            </select>
+          </div>
+          <label class="consent"><input id="photoConsent" type="checkbox"> <span>I own this photo or have permission to use it, and I understand the generated image is an AI planning concept—not a product sample, construction plan, or contractor quote.</span></label>
+          <button class="btn primary" id="generateRoof" type="submit">Generate roof concept</button>
+          <p class="fine status" id="visualizerStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+      <aside class="card result-card">
+        <div id="emptyResult">
+          <h2>Your concept will appear here</h2>
+          <ul>
+            <li>The home’s shape and surroundings should remain unchanged.</li>
+            <li>AI can make mistakes around trees, solar panels, dormers, and complex rooflines.</li>
+            <li>Always compare physical manufacturer samples before choosing a product or color.</li>
+          </ul>
+        </div>
+        <div id="generatedResult" hidden>
+          <div class="result-heading"><div><div class="eyebrow">Generated concept</div><h2 id="conceptTitle">Roof concept</h2></div><button class="btn secondary" id="downloadConcept" type="button">Download</button></div>
+          <div class="preview-frame generated"><img id="resultImage" alt="AI-generated roof concept"></div>
+          <p class="fine">AI-generated visualization with SynthID. Appearance, color, scale, product availability, and construction details may differ from real materials and the completed roof.</p>
+          <a class="btn primary handoff" href="/#result">Return to my estimate</a>
+        </div>
+      </aside>
+    </section>
+  </main>
+  <footer class="legal"><div class="wrap"><span>&copy; 2026 MidSize AI. AI planning concepts only.</span><nav><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></nav></div></footer>
+  <script src="/visualizer.js" defer></script>
+</body>
+</html>
