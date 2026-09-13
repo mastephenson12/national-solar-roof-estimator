@@ -1,0 +1,2 @@
+function syncPrint(){document.querySelectorAll('td textarea').forEach(input=>{input.nextElementSibling.textContent=input.value.trim()||'Not stated';});}
+document.addEventListener('input',syncPrint);window.addEventListener('beforeprint',syncPrint);document.getElementById('print').addEventListener('click',()=>{syncPrint();window.print();});
