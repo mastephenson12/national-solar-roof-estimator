@@ -1,0 +1,5 @@
+{
+  "name": "national-solar-roof-estimator",
+  "private": true,
+  "scripts": {"test": "node --test tests/*.test.cjs"}
+}

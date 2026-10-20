@@ -1,14 +1,6 @@
-const attempts = new Map();
-function originAllowed(request) {
-  const origin = clean(request.headers.origin, 200);
-  const host = clean(request.headers.host, 200);
-  if (!origin || !host) return false;
-  try {
-    return new URL(origin).host === host;
-  } catch {
-    return false;
-  }
-}
+const {readJson, createLimiter} = require('./_lib/security');
+const rateLimited = createLimiter(3, 900000);
+
 const MATERIALS = new Set([
   'architectural asphalt shingles',
   'standing-seam metal roofing',
@@ -28,16 +20,6 @@ const MIME_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp']);
 const clean = (value, max) => typeof value === 'string' ? value.trim().slice(0, max) : '';
 const reject = (response, status, error) => response.status(status).json({ error });
 
-function rateLimited(request) {
-  const ip = clean(request.headers['x-forwarded-for']?.split(',')[0], 64) || 'unknown';
-  const now = Date.now();
-  const windowMs = 15 * 60 * 1000;
-  const recent = (attempts.get(ip) || []).filter(time => now - time < windowMs);
-  recent.push(now);
-  attempts.set(ip, recent);
-  return recent.length > 3;
-}
-
 function findOutputImage(payload) {
   if (payload?.output_image?.data) return payload.output_image;
   for (const step of payload?.steps || []) {
@@ -55,17 +37,17 @@ module.exports = async function handler(request, response) {
     response.setHeader('Allow', 'POST');
     return reject(response, 405, 'Method not allowed');
   }
-  if (!originAllowed(request)) return reject(response, 403, 'Origin not allowed');
+  const body = readJson(request, response, 4400000);
+  if (!body) return;
   if (rateLimited(request)) return reject(response, 429, 'You have reached the preview limit. Please try again later.');
   if (!process.env.GEMINI_API_KEY) return reject(response, 503, 'The roof visualizer is not configured yet.');
 
-  const body = request.body && typeof request.body === 'object' ? request.body : {};
   if (body.website) return response.status(202).json({ ok: true });
-  const imageData = clean(body.imageData, 6_500_000);
+  const imageData = typeof body.imageData === 'string' ? body.imageData.trim() : '';
   const mimeType = clean(body.mimeType, 30);
   const material = clean(body.material, 80);
   const color = clean(body.color, 40);
-  if (!body.consent || !imageData || !MIME_TYPES.has(mimeType) || !MATERIALS.has(material) || !COLORS.has(color)) {
+  if (body.consent !== true || !imageData || !MIME_TYPES.has(mimeType) || !MATERIALS.has(material) || !COLORS.has(color)) {
     return reject(response, 400, 'Invalid visualization request');
   }
   if (!/^[A-Za-z0-9+/=]+$/.test(imageData) || Buffer.byteLength(imageData, 'base64') > 4_500_000) {

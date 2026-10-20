@@ -1,22 +1,7 @@
-const attempts = new Map();
+const {readJson, createLimiter} = require('./_lib/security');
+const rateLimited = createLimiter(10, 900000);
 const clean = (value, max) => typeof value === 'string' ? value.trim().slice(0, max) : '';
 const reject = (response, status, error, extra = {}) => response.status(status).json({ error, ...extra });
-
-function sameOrigin(request) {
-  const origin = clean(request.headers.origin, 200);
-  const host = clean(request.headers.host, 200);
-  if (!origin || !host) return false;
-  try { return new URL(origin).host === host; } catch { return false; }
-}
-
-function rateLimited(request) {
-  const ip = clean(request.headers['x-forwarded-for']?.split(',')[0], 64) || 'unknown';
-  const now = Date.now();
-  const recent = (attempts.get(ip) || []).filter(time => now - time < 15 * 60 * 1000);
-  recent.push(now);
-  attempts.set(ip, recent);
-  return recent.length > 10;
-}
 
 module.exports = async function handler(request, response) {
   response.setHeader('Cache-Control', 'private, no-store');
@@ -25,13 +10,14 @@ module.exports = async function handler(request, response) {
     response.setHeader('Allow', 'POST');
     return reject(response, 405, 'Method not allowed');
   }
-  if (!sameOrigin(request)) return reject(response, 403, 'Origin not allowed');
+  const body = readJson(request, response, 2048);
+  if (!body) return;
   if (rateLimited(request)) return reject(response, 429, 'Too many address checks. Please try again later.');
   if (!process.env.GOOGLE_MAPS_API_KEY) {
     return reject(response, 503, 'Address lookup is not configured yet. You can still upload your own photo.');
   }
 
-  const address = clean(request.body?.address, 200);
+  const address = clean(body.address, 200);
   if (address.length < 6) return reject(response, 400, 'Enter a complete street address.');
 
   const params = new URLSearchParams({

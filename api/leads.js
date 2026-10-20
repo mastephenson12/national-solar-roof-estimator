@@ -1,5 +1,5 @@
-const attempts = new Map();
-const ALLOWED_ORIGINS = new Set(['https://estimator.midsizeai.com']);
+const {readJson, createLimiter} = require('./_lib/security');
+const rateLimited = createLimiter(5, 600000);
 const CONTACT_METHODS = new Set(['email', 'phone', 'text']);
 const MATERIALS = new Set(['shingle', 'tile', 'tileReuse', 'metal', 'flat']);
 const COMPLEXITIES = new Set(['simple', 'moderate', 'complex']);
@@ -12,15 +12,6 @@ const inRange = (value, min, max) => {
 };
 const reject = (response, status, error) => response.status(status).json({ error });
 
-function rateLimited(request) {
-  const ip = clean(request.headers['x-forwarded-for']?.split(',')[0], 64) || 'unknown';
-  const now = Date.now(), windowMs = 10 * 60 * 1000;
-  const recent = (attempts.get(ip) || []).filter(time => now - time < windowMs);
-  recent.push(now);
-  attempts.set(ip, recent);
-  return recent.length > 5;
-}
-
 module.exports = async function handler(request, response) {
   response.setHeader('Cache-Control', 'no-store');
   response.setHeader('X-Content-Type-Options', 'nosniff');
@@ -28,11 +19,11 @@ module.exports = async function handler(request, response) {
     response.setHeader('Allow', 'POST');
     return reject(response, 405, 'Method not allowed');
   }
-  if (!ALLOWED_ORIGINS.has(clean(request.headers.origin, 200))) return reject(response, 403, 'Origin not allowed');
+  const body = readJson(request, response, 8192);
+  if (!body) return;
   if (rateLimited(request)) return reject(response, 429, 'Too many requests');
   if (!process.env.MAKE_WEBHOOK_URL || !process.env.MAKE_WEBHOOK_API_KEY) return reject(response, 503, 'Lead service unavailable');
 
-  const body = request.body && typeof request.body === 'object' ? request.body : {};
   if (body.website) return response.status(202).json({ ok: true });
   const lead = {
     name: clean(body.name, 80), email: clean(body.email, 254).toLowerCase(), phone: clean(body.phone, 30),
