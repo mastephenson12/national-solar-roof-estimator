@@ -58,6 +58,9 @@ module.exports = async function handler(request, response) {
       body: makeBody, signal: AbortSignal.timeout(8000)
     });
     if (!upstream.ok) throw new Error(`Make returned ${upstream.status}`);
+    // Make's default 200 Accepted confirms queueing, not a completed CRM write.
+    const receipt = await upstream.json();
+    if (receipt?.recorded !== true) throw new Error('CRM handoff was not confirmed');
     return response.status(200).json({ ok: true });
   } catch (error) {
     console.error('Lead handoff failed:', error.message);

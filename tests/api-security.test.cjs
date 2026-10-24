@@ -37,7 +37,7 @@ test('valid estimator paths still complete with mocked providers and timeouts', 
  process.env.MAKE_WEBHOOK_URL='https://example.com/test';process.env.MAKE_WEBHOOK_API_KEY='test';process.env.GOOGLE_MAPS_API_KEY='test';process.env.GEMINI_API_KEY='test';
  try {
   let payload;
-  global.fetch=async(url,options)=>{assert(options.signal);payload=options.body;return {ok:true};};
+  global.fetch=async(url,options)=>{assert(options.signal);payload=options.body;return {ok:true,json:async()=>({recorded:true})};};
   let response=res();await handlers[0](req({name:'Test',email:'test@example.com',contactMethod:'email',zip:'85001',sqft:2000,low:10000,high:20000,roofArea:2400,stories:1,material:'shingle',complexity:'simple',age:'mid',consent:true},{'x-forwarded-for':'valid-lead'}),response);
   assert.equal(response.code,200);assert.equal(payload.get('consent'),'Yes');
   global.fetch=async(url,options)=>{assert(options.signal);return String(url).includes('/metadata?')?{ok:true,json:async()=>({status:'OK',location:{lat:33,lng:-112},pano_id:'test'})}:{ok:true,headers:new Headers({'content-type':'image/jpeg'}),arrayBuffer:async()=>new Uint8Array([1,2,3]).buffer};};
@@ -47,4 +47,17 @@ test('valid estimator paths still complete with mocked providers and timeouts', 
  } finally {
   global.fetch=original;for(const key of ['MAKE_WEBHOOK_URL','MAKE_WEBHOOK_API_KEY','GOOGLE_MAPS_API_KEY','GEMINI_API_KEY']){if(previous[key]===undefined)delete process.env[key];else process.env[key]=previous[key];}
  }
+});
+
+test('lead handoff rejects queued, malformed, missing and failed CRM receipts',async()=>{
+ const original=global.fetch;const oldUrl=process.env.MAKE_WEBHOOK_URL,oldKey=process.env.MAKE_WEBHOOK_API_KEY;
+ process.env.MAKE_WEBHOOK_URL='https://example.com/test';process.env.MAKE_WEBHOOK_API_KEY='test';
+ const body={name:'Test',phone:'+12025550123',contactMethod:'phone',zip:'85001',sqft:2000,low:10000,high:20000,roofArea:2400,stories:1,material:'shingle',complexity:'simple',age:'mid',consent:true};
+ try{
+  const receipts=[{ok:true,json:async()=>{throw Error('Accepted');}},{ok:true,json:async()=>({})},{ok:true,json:async()=>({recorded:false})},{ok:false,status:500}];
+  for(let i=0;i<receipts.length;i++){
+   global.fetch=async()=>receipts[i];const response=res();await handlers[0](req(body,{'x-forwarded-for':'receipt-'+i}),response);assert.equal(response.code,502);assert(!response.data.ok);
+  }
+  global.fetch=async()=>({ok:true,json:async()=>({recorded:true})});const response=res();await handlers[0](req(body,{'x-forwarded-for':'phone-only-receipt'}),response);assert.equal(response.code,200);
+ }finally{global.fetch=original;if(oldUrl===undefined)delete process.env.MAKE_WEBHOOK_URL;else process.env.MAKE_WEBHOOK_URL=oldUrl;if(oldKey===undefined)delete process.env.MAKE_WEBHOOK_API_KEY;else process.env.MAKE_WEBHOOK_API_KEY=oldKey;}
 });
