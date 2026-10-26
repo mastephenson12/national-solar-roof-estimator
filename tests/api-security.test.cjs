@@ -42,7 +42,7 @@ test('valid estimator paths still complete with mocked providers and timeouts', 
   assert.equal(response.code,200);assert.equal(payload.get('consent'),'Yes');assert.equal(payload.get('timeline'),'researching');
   const timedLead={name:'Test',email:'test@example.com',contactMethod:'email',timeline:'within-7-days',zip:'85001',sqft:2000,low:10000,high:20000,roofArea:2400,stories:1,material:'shingle',complexity:'simple',age:'mid',consent:true};
   response=res();await handlers[0](req(timedLead,{'x-forwarded-for':'timed-lead'}),response);
-  assert.equal(response.code,200);assert.equal(payload.get('timeline'),'within-7-days');
+  assert.equal(response.code,200);assert.equal(payload.get('timeline'),'within-7-days');assert.equal(payload.get('routingStatus'),'pending-midsize-review');assert.equal(payload.get('rooferAssigned'),'false');assert.equal(payload.get('consentVersion'),'2026-10-26');
   let calls=0;global.fetch=async()=>{calls++;throw Error('invalid timeline must not reach CRM');};
   response=res();await handlers[0](req({...timedLead,timeline:'invalid'},{'x-forwarded-for':'bad-timeline'}),response);
   assert.equal(response.code,400);assert.equal(calls,0);

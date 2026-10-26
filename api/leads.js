@@ -34,7 +34,11 @@ module.exports = async function handler(request, response) {
     material: clean(body.material, 20), complexity: clean(body.complexity, 20), age: clean(body.age, 10),
     region: clean(body.region, 80), tearOff: body.tearOff === true, leak: body.leak === true,
     decking: body.decking === true, solar: body.solar === true, consent: body.consent === true,
-    source: 'MidSize AI Roof Cost Estimator'
+    source: 'MidSize AI Roof Cost Estimator',
+    routingStatus: 'pending-midsize-review',
+    rooferAssigned: false,
+    consentVersion: '2026-10-26',
+    consentText: 'I agree that MidSizeAI may contact me about this request by my preferred method. MidSizeAI will ask before sharing my contact details with a roofing professional. Consent is not required to use the estimator.'
   };
   const digits = lead.phone.replace(/\D/g, '');
   const validEmail = !lead.email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email);
