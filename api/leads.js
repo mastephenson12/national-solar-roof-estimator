@@ -1,6 +1,7 @@
 const {readJson, createLimiter} = require('./_lib/security');
 const rateLimited = createLimiter(5, 600000);
 const CONTACT_METHODS = new Set(['email', 'phone', 'text']);
+const TIMELINES = new Set(['researching', 'within-7-days', 'within-30-days', 'within-3-months']);
 const MATERIALS = new Set(['shingle', 'tile', 'tileReuse', 'metal', 'flat']);
 const COMPLEXITIES = new Set(['simple', 'moderate', 'complex']);
 const AGES = new Set(['new', 'mid', 'old']);
@@ -27,7 +28,7 @@ module.exports = async function handler(request, response) {
   if (body.website) return response.status(202).json({ ok: true });
   const lead = {
     name: clean(body.name, 80), email: clean(body.email, 254).toLowerCase(), phone: clean(body.phone, 30),
-    contactMethod: clean(body.contactMethod, 10), zip: clean(body.zip, 5), sqft: inRange(body.sqft, 500, 15000),
+    contactMethod: clean(body.contactMethod, 10), timeline: body.timeline === undefined ? 'researching' : clean(body.timeline, 30), zip: clean(body.zip, 5), sqft: inRange(body.sqft, 500, 15000),
     low: inRange(body.low, 0, 1000000), high: inRange(body.high, 0, 1000000),
     roofArea: inRange(body.roofArea, 100, 50000), stories: inRange(body.stories, 1, 10),
     material: clean(body.material, 20), complexity: clean(body.complexity, 20), age: clean(body.age, 10),
@@ -42,7 +43,7 @@ module.exports = async function handler(request, response) {
     lead.stories !== null && /^\d{5}$/.test(lead.zip) && MATERIALS.has(lead.material) &&
     COMPLEXITIES.has(lead.complexity) && AGES.has(lead.age);
   if (!lead.name || (!lead.email && !lead.phone) || !validEmail || !validPhone || !CONTACT_METHODS.has(lead.contactMethod) ||
-      !lead.consent || !validEstimate || (lead.contactMethod === 'email' && !lead.email) ||
+      !TIMELINES.has(lead.timeline) || !lead.consent || !validEstimate || (lead.contactMethod === 'email' && !lead.email) ||
       (lead.contactMethod !== 'email' && !lead.phone)) return reject(response, 400, 'Invalid submission');
 
   const makeBody = new URLSearchParams({ ...lead,

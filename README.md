@@ -14,3 +14,7 @@ Create the webhook with Make's native API-key protection. Set `MAKE_WEBHOOK_URL`
 - Step 1: Takes the homeowner's address.
 - Step 2: Shows them a satellite map of their house.
 - Step 3: Checks what their roof is made of (Tile, Shingle, or Foam).
+
+## Inspection request timeframe
+
+The optional introduction form now sends timeline with the existing estimate and preferred contact method to Make. Values: researching, within-7-days, within-30-days, within-3-months. Older clients default to researching. Map this field into the CRM follow-up task or opportunity so the roofer knows the homeowner's intended timeframe. It is not a booked appointment or a response-time promise. The existing recorded:true CRM receipt requirement remains in place.
